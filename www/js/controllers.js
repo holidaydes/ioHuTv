@@ -7,15 +7,19 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ChannelsCtrl', function($scope, Channels) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
 
-  $scope.channels = Channels.all();
+  $scope.$on('$ionicView.enter', function(e) {
+    console.error('ERR', 'there will be some funny function');
+  });
+
+  $scope.$watch(angular.bind(Channels, function() {
+   return Channels.all();
+ }), function(value) {
+   if (value) {
+     $scope.channels = Channels.all();
+   }
+ });
+
 })
 
 .controller('ChannelsDetailCtrl', function($scope, $stateParams, Channels) {

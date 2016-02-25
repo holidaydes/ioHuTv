@@ -1,37 +1,24 @@
 angular.module('starter.services', [])
 
-.factory('Channels', function() {
+.factory('Channels', function($http) {
 
-  var channels = [{
-    id: 0,
-    name: 'M1',
-    logo: 'img/M1.png'
-  }, {
-    id: 1,
-    name: 'M2',
-    logo: 'img/M2.png'
-  }, {
-    id: 2,
-    name: 'M4',
-    logo: 'img/M4.png'
-  }, {
-    id: 3,
-    name: 'Duna TV',
-    logo: 'img/Duna.png'
-  }, {
-    id: 4,
-    name: 'Duna World',
-    logo: 'img/DunaW.png'
-  }];
+  var vm = this;
+  vm.channels = null;
+
+  $http.get('/resource/channels.json').then(function(resp) {
+    vm.channels = resp.data;
+  }, function(err) {
+    console.error('ERR', err);
+  });
 
   return {
     all: function() {
-      return channels;
+      return vm.channels;
     },
     get: function(channelId) {
-      for (var i = 0; i < channels.length; i++) {
-        if (channels[i].id === parseInt(channelId)) {
-          return channels[i];
+      for (var i = 0; i < vm.channels.length; i++) {
+        if (vm.channels[i].id === parseInt(channelId)) {
+          return vm.channels[i];
         }
       }
       return null;
