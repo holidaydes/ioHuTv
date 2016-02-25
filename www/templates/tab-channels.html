@@ -2,10 +2,10 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="channel in channels" type="item-text-wrap" href="#/tab/channels/{{channel.id}}">
-        <img ng-src="{{channel.logo}}">
-        <h2>{{channel.name}}</h2>
+        <img ng-src="{{tvGuides.channels[channel.id].logo}}">
+        <h2>{{tvGuides.channels[channel.id].name}}</h2>
         <p>
-          Valami
+          {{tvGuides.channels[channel.id].programs[5].title}}
         </p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
