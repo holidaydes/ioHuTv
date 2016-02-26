@@ -29,7 +29,7 @@ angular.module('starter.services', [])
   };
 })
 
-.service('TvGuide', ['$http', function($http) {
+.service('TvGuide', ['$http', 'TvTime', function($http, TvTime) {
 
   var vm = this;
   vm.channelTvGuide;
@@ -53,4 +53,75 @@ angular.module('starter.services', [])
     });
   };
 
+  vm.getCurrentShow = function(programs) {
+    vm.currentShow = '';
+    var currentTime = TvTime.getHours() + '' + TvTime.getMinutes();
+
+    for (var i = 0; i < programs.length; i++) {
+      if (TvTime.getTime(programs[i].start_time) <= currentTime && TvTime.getTime(programs[i].end_time) >= currentTime) {
+        vm.currentShow = programs[i];
+        break;
+      }
+    }
+
+    return vm.currentShow;
+  };
+
+  vm.getNextShows = function(programs, amount) {
+    vm.next = [];
+    var currentTime = TvTime.getHours() + '' + TvTime.getMinutes();
+
+    for (var i = 0; i < programs.length; i++) {
+      if (TvTime.getTime(programs[i].start_time) <= currentTime && TvTime.getTime(programs[i].end_time) >= currentTime) {
+        vm.next.push(programs[i]);
+        for (var j = 1; j <= amount; j++) {
+          if ((i + j) != programs.length) {
+            vm.next.push(programs[i + j]);
+          }
+        }
+        break;
+      }
+    }
+
+    return vm.next;
+  };
+
+}])
+
+.service('TvTime', [function() {
+  var vm = this;
+
+  vm.getDate = function() {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = ((date.getMonth() < 9) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1));
+    var day = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
+    return year + '-' + month + '-' + day;
+  };
+
+  vm.getHours = function() {
+    var date = new Date();
+    var hours = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours());
+    return hours;
+  };
+
+  vm.getMinutes = function() {
+    var date = new Date();
+    var minutes = ((date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes());
+    return minutes;
+  };
+
+  vm.getTime = function(time) {
+    var hours = time.substring(0, 2);
+    var minutes = time.substring(3);
+
+    if (hours === '00') {
+      hours = 24;
+    }
+    if (hours.substring(0, 1) === '0') {
+      hours = hours.substring(1);
+    }
+
+    return hours + '' + minutes;
+  };
 }]);

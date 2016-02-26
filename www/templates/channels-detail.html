@@ -1,17 +1,62 @@
-<ion-view view-title="{{channel.title}}">
+<ion-view view-title="{{tvGuide.channels[0].name}}">
   <ion-content class="padding">
     <div class="list card">
 
       <div class="item item-avatar">
-        <img ng-src="{{channel.logo}}">
-        <h2>{{channel.name}}</h2>
-        <p>valami</p>
+        <img ng-src="{{tvGuide.channels[0].logo}}">
+        <h2>{{currentShow.title}}</h2>
+        <p></p>
       </div>
 
       <div class="item item-body">
-        <img class="full-image" src="#">
+        <img class="full-image" ng-src="{{tvGuide.channels[0].capture}}">
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc auctor, metus ut maximus rutrum, ex dolor pharetra justo, a eleifend lorem risus eget mauris. In egestas, augue a tincidunt venenatis, metus felis mollis velit, et placerat erat ligula a mauris. Nulla pretium tincidunt interdum. Integer consectetur aliquam est, non laoreet.
+          id: {{currentShow.id}}
+          start_datetime: {{currentShow.start_datetime}}
+          start_time: {{currentShow.start_time}}
+          end_time: {{currentShow.end_time}}
+          end_datetime: {{currentShow.end_datetime}}
+          is_child_event: {{currentShow.is_child_event}}
+          short_description: {{currentShow.short_description}}
+          is_repeat: {{currentShow.is_repeat}}
+          highlight: {{currentShow.highlight}}
+          italics: {{currentShow.italics}}
+          is_favorite: {{currentShow.is_favorite}}
+          has_notification: {{currentShow.has_notification}}
+          favorite_url: {{currentShow.favorite_url}}
+          film_id: {{currentShow.film_id}}
+          del_calendar_url: {{currentShow.del_calendar_url}}
+          show_notification: {{currentShow.show_notification}}
+          show_favorite: {{currentShow.show_favorite}}
+          media_url: {{currentShow.media_url}}
+          set_notification_url: {{currentShow.set_notification_url}}
+          is_live: {{currentShow.is_live}}
+          title: {{currentShow.title}},
+          film_url: {{currentShow.film_url}}
+          episode_title: {{currentShow.episode_title}}
+          sound_quality: {{currentShow.sound_quality}}
+          description: {{currentShow.description}}
+          has_video: {{currentShow.has_video}}
+          attributes:
+          id: {{currentShow.attributes[0].id}}
+          description: {{currentShow.attributes[0].description}}
+          name: {{currentShow.attributes[0].name}}
+          attribute_description: {{currentShow.attributes[0].attribute_description}}
+          attribute_pictogram: <img ng-src="{{currentShow.attributes[0].attribute_pictogram}}" />
+          id: {{currentShow.attributes[1].id}}
+          description: {{currentShow.attributes[1].description}}
+          name: {{currentShow.attributes[1].name}}
+          attribute_description: {{currentShow.attributes[1].attribute_description}}
+          attribute_pictogram: <img ng-src="{{currentShow.attributes[1].attribute_pictogram}}" />
+          attributes_text: {{currentShow.attributes_text}}
+          outer_links
+          film_outer_link: {{currentShow.outer_links.film_outer_link}}
+          watch_movie_link: {{currentShow.outer_links.watch_movie_link}}
+          extra_link: {{currentShow.outer_links.extra_link}}
+          media: {{currentShow.media}}
+          restriction
+          category: {{currentShow.restriction.category}}
+          type: {{currentShow.type}}
         </p>
         <p>
           <a href="#" class="subdued">Info</a>

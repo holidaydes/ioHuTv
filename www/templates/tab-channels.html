@@ -5,7 +5,7 @@
         <img ng-src="{{tvGuides.channels[channel.id].logo}}">
         <h2>{{tvGuides.channels[channel.id].name}}</h2>
         <p>
-          {{tvGuides.channels[channel.id].programs[5].title}}
+          {{getCurrentShow(tvGuides.channels[channel.id].programs).title}}
         </p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>

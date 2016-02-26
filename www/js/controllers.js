@@ -6,7 +6,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChannelsCtrl', function($scope, Channels, TvGuide) {
+.controller('ChannelsCtrl', function($scope, Channels, TvGuide, TvTime) {
 
   $scope.port;
   $scope.channels;
@@ -14,7 +14,7 @@ angular.module('starter.controllers', [])
   $scope.tvGuides = '';
 
   $scope.$on('$ionicView.enter', function(e) {
-    TvGuide.getTvGuides($scope.port, $scope.port_ids, $scope.getDate());
+    TvGuide.getTvGuides($scope.port, $scope.port_ids, TvTime.getDate());
     $scope.tvGuides = TvGuide.channelTvGuides;
     console.log('Query tv guides');
   });
@@ -32,29 +32,25 @@ angular.module('starter.controllers', [])
     }
   });
 
-  $scope.getDate = function(){
-    var date = new Date();
-    var year = date.getFullYear();
-    var month = ((date.getMonth() < 9) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1));
-    var day = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
-    return year + '-' + month + '-' + day;
-  };
-
-  $scope.getHours = function(){
-    var date = new Date();
-    var hours = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours());
-    return hours;
-  };
-
-  $scope.getMinutes = function(){
-    var date = new Date();
-    var minutes = ((date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes());
-    return minutes;
+  $scope.getCurrentShow = function(programs){
+    return TvGuide.getCurrentShow(programs);
   };
 
 })
 
-.controller('ChannelsDetailCtrl', function($scope, $stateParams, Channels) {
+.controller('ChannelsDetailCtrl', function($scope, $stateParams, Channels, TvGuide, TvTime) {
   $scope.port = Channels.port();
   $scope.channel = Channels.getChannel($stateParams.channelId);
+  $scope.tvGuide = '';
+  $scope.currentShow = '';
+  $scope.nextShows = [];
+
+  $scope.$on('$ionicView.enter', function(e) {
+    TvGuide.getTvGuide($scope.port, $scope.channel.port_id, TvTime.getDate());
+    $scope.tvGuide = TvGuide.channelTvGuide;
+    $scope.currentShow = TvGuide.getCurrentShow($scope.tvGuide.channels[0].programs);
+    $scope.nextShows = TvGuide.getCurrentShow($scope.tvGuide.channels[0].programs, 3);
+    console.log('Query tv guide');
+    $scope.$apply();
+  });
 });
