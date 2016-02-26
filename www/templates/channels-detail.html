@@ -1,4 +1,4 @@
-<ion-view view-title="{{tvGuide.channels[0].name}}">
+<ion-view view-title="{{tvGuide.channels[0].name}}" ng-show="loaded">
   <ion-content class="padding">
     <div class="list card">
 
@@ -9,7 +9,7 @@
       </div>
 
       <div class="item item-body">
-        <img class="full-image" ng-src="{{tvGuide.channels[0].capture}}">
+        <img class="full-image" ng-src="{{capture}}">
         <p>
           id: {{currentShow.id}}
           start_datetime: {{currentShow.start_datetime}}

@@ -67,7 +67,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'SETTINGS' : 'Settings',
     'LANGUAGE' : 'Language',
     'LANG_EN' : 'English',
-    'LANG_HU' : 'Hungarian'
+    'LANG_HU' : 'Hungarian',
+    'NEXTLIMIT' : 'Program number'
   });
 
   $translateProvider.translations('hu', {
@@ -75,7 +76,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'SETTINGS' : 'Beállítások',
     'LANGUAGE' : 'Nyelv',
     'LANG_EN' : 'Angol',
-    'LANG_HU' : 'Magyar'
+    'LANG_HU' : 'Magyar',
+    'NEXTLIMIT' : 'Program szám'
   });
 
   $translateProvider.preferredLanguage('hu');

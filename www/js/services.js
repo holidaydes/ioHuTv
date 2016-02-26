@@ -112,14 +112,14 @@ angular.module('starter.services', [])
   };
 
   vm.getTime = function(time) {
-    var hours = time.substring(0, 2);
-    var minutes = time.substring(3);
+    var hours = time.toString().substring(0, 2);
+    var minutes = time.toString().substring(3);
 
     if (hours === '00') {
       hours = 24;
     }
-    if (hours.substring(0, 1) === '0') {
-      hours = hours.substring(1);
+    if (hours.toString().substring(0, 1) === '0') {
+      hours = hours.toString().substring(1);
     }
 
     return hours + '' + minutes;

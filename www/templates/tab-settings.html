@@ -3,5 +3,9 @@
     {{'LANGUAGE' | translate}}
     <ion-radio ng-model="choice" ng-click="changeLanguage('hu')">{{'LANG_HU' | translate}}</ion-radio>
     <ion-radio ng-model="choice" ng-click="changeLanguage('en')">{{'LANG_EN' | translate}}</ion-radio>
+    {{'NEXTLIMIT' | translate}}
+    <div class="item range">
+      <input type="range" ng-model="nextLimit" name="volume" min="1" max="10" value="{{nextLimit}}">{{nextLimit}}
+    </div>
   </ion-content>
 </ion-view>

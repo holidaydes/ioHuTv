@@ -1,6 +1,6 @@
 <ion-view view-title="{{'CHANNELS' | translate}}">
   <ion-content>
-    <ion-list>
+    <ion-list ng-show="loaded">
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="channel in channels" type="item-text-wrap" href="#/tab/channels/{{channel.id}}">
         <img ng-src="{{tvGuides.channels[channel.id].logo}}">
         <h2>{{tvGuides.channels[channel.id].name}}</h2>
