@@ -50,31 +50,50 @@ angular.module('starter.controllers', [])
 
 .controller('ChannelsDetailCtrl', function($scope, $stateParams, Channels, TvGuide, TvTime) {
   $scope.port = Channels.port();
+  $scope.port_default = Channels.port_default();
   $scope.channel = Channels.getChannel($stateParams.channelId);
   $scope.tvGuide = '';
   $scope.currentShow = '';
   $scope.nextShows = [];
   $scope.loaded = false;
+  /*default parameters*/
   $scope.capture = 'img/default.jpg';
+  $scope.film_url = $scope.port_default;
+  $scope.nextLimit = 3;
+  /*view control parameters*/
+  $scope.nextShowsPanel = false;
 
   $scope.$on('$ionicView.enter', function(e) {
     TvGuide.getTvGuide($scope.port, $scope.channel.port_id, TvTime.getDate());
-    console.log('Query tv guide');
+    console.log('Query ' + $scope.channel.title + ' programs.');
     $scope.$watch(angular.bind(TvGuide, function() {
       return TvGuide.channelTvGuide;
     }), function(value) {
       if (value) {
         $scope.tvGuide = TvGuide.channelTvGuide;
         $scope.currentShow = TvGuide.getCurrentShow($scope.tvGuide.channels[0].programs);
-        $scope.nextShows = TvGuide.getCurrentShow($scope.tvGuide.channels[0].programs, $scope.nextLimit);
+        $scope.nextShows = TvGuide.getNextShows($scope.tvGuide.channels[0].programs, $scope.nextLimit);
         if($scope.tvGuide.channels[0].capture != null){
           $scope.capture = $scope.tvGuide.channels[0].capture;
         } else {
           $scope.capture = 'img/default.jpg';
         }
+        if($scope.currentShow.film_url != null){
+          $scope.film_url = $scope.currentShow.film_url;
+        } else {
+          $scope.film_url = $scope.port_default;
+        }
         $scope.loaded = true;
       }
     });
   });
+
+  $scope.nextShowsPanelToggle = function(){
+    if($scope.nextShowsPanel){
+      $scope.nextShowsPanel = false;
+    } else {
+      $scope.nextShowsPanel = true;
+    }
+  };
 
 });

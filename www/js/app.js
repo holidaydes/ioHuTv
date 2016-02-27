@@ -68,7 +68,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'LANGUAGE' : 'Language',
     'LANG_EN' : 'English',
     'LANG_HU' : 'Hungarian',
-    'NEXTLIMIT' : 'Program number'
+    'NEXTLIMIT' : 'Program number',
+    'PLAY' : 'Play',
+    'INFO' : 'Port.hu',
+    'NEXT_SHOWS' : 'Next shows'
   });
 
   $translateProvider.translations('hu', {
@@ -77,7 +80,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'LANGUAGE' : 'Nyelv',
     'LANG_EN' : 'Angol',
     'LANG_HU' : 'Magyar',
-    'NEXTLIMIT' : 'Program szám'
+    'NEXTLIMIT' : 'Program szám',
+    'PLAY' : 'Lejátszás',
+    'INFO' : 'Port.hu',
+    'NEXT_SHOWS' : 'Következő műsorok'
   });
 
   $translateProvider.preferredLanguage('hu');

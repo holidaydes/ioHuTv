@@ -18,6 +18,9 @@ angular.module('starter.services', [])
     port: function() {
       return vm.data.port;
     },
+    port_default: function() {
+      return vm.data.port_default;
+    },
     getChannel: function(channelId) {
       for (var i = 0; i < vm.data.channels.length; i++) {
         if (vm.data.channels[i].id === parseInt(channelId)) {
@@ -33,10 +36,11 @@ angular.module('starter.services', [])
 
   var vm = this;
   vm.channelTvGuide;
-  vm.channelsTvGuide;
+  vm.channelTvGuides;
 
   vm.getTvGuide = function(port, port_id, date) {
     var url = port + port_id + '&i_portdate=' + date;
+    //$http.get('/resource/port.json').then(function(resp) {
     $http.get(url).then(function(resp) {
       vm.channelTvGuide = resp.data;
     }, function(err) {
@@ -46,6 +50,7 @@ angular.module('starter.services', [])
 
   vm.getTvGuides = function(port, port_ids, date) {
     var url = port + port_ids + '&i_portdate=' + date;
+    //$http.get('/resource/port_minden.json').then(function(resp) {
     $http.get(url).then(function(resp) {
       vm.channelTvGuides = resp.data;
     }, function(err) {
@@ -73,7 +78,6 @@ angular.module('starter.services', [])
 
     for (var i = 0; i < programs.length; i++) {
       if (TvTime.getTime(programs[i].start_time) <= currentTime && TvTime.getTime(programs[i].end_time) >= currentTime) {
-        vm.next.push(programs[i]);
         for (var j = 1; j <= amount; j++) {
           if ((i + j) != programs.length) {
             vm.next.push(programs[i + j]);
@@ -102,6 +106,14 @@ angular.module('starter.services', [])
   vm.getHours = function() {
     var date = new Date();
     var hours = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours());
+
+    if (hours === '00') {
+      hours = 24;
+    }
+    if (hours.toString().substring(0, 1) === '0') {
+      hours = hours.toString().substring(1);
+    }
+
     return hours;
   };
 
