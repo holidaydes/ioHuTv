@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'pascalprecht.translate'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.directives', 'pascalprecht.translate'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -71,7 +71,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'NEXTLIMIT' : 'Program number',
     'PLAY' : 'Play',
     'INFO' : 'Port.hu',
-    'NEXT_SHOWS' : 'Next shows'
+    'NEXT_SHOWS' : 'Next shows',
+    'TVGUIDE' : 'Tv guide'
   });
 
   $translateProvider.translations('hu', {
@@ -83,7 +84,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'NEXTLIMIT' : 'Program szám',
     'PLAY' : 'Lejátszás',
     'INFO' : 'Port.hu',
-    'NEXT_SHOWS' : 'Következő műsorok'
+    'NEXT_SHOWS' : 'Következő műsorok',
+    'TVGUIDE' : 'Műsorújság'
   });
 
   $translateProvider.preferredLanguage('hu');

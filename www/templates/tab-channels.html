@@ -1,9 +1,10 @@
 <ion-view view-title="{{'CHANNELS' | translate}}">
   <ion-content>
+    <loading ng-hide="loaded"></loading>
     <ion-list ng-show="loaded">
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="channel in channels" type="item-text-wrap" href="#/tab/channels/{{channel.id}}">
-        <img ng-src="{{tvGuides.channels[channel.id].logo}}">
-        <h2>{{tvGuides.channels[channel.id].name}}</h2>
+        <img src="{{getLogo(channel.id)}}">
+        <h2>{{channel.title}}</h2>
         <p>
           {{getCurrentShow(tvGuides.channels[channel.id].programs).title}}
         </p>

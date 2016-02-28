@@ -1,6 +1,7 @@
-<ion-view view-title="{{tvGuide.channels[0].name}}" ng-show="loaded">
+<ion-view view-title="{{channel.title}}">
   <ion-content class="padding">
-    <div class="list card">
+    <loading ng-hide="loaded"></loading>
+    <div class="list card" ng-show="loaded">
 
       <div class="item">
         <h3 align="center">{{currentShow.title}}</h3>
@@ -9,67 +10,38 @@
       <div class="item item-body">
         <img class="full-image" ng-src="{{capture}}">
         <div class="button-bar">
-          <a class="button button-positive" ng-href="{{channel.link}}">{{'PLAY' | translate}}</a>
-          <a class="button button-positive" ng-href="{{film_url}}">{{'INFO' | translate}}</a>
+          <button class="button button-positive ion-ios-play-outline icon-left" ng-href="{{channel.link}}">{{'PLAY' | translate}}</button>
+          <button class="button button-positive ion-ios-information-outline icon-left" ng-href="{{film_url}}">{{'INFO' | translate}}</button>
         </div>
         <h3>{{currentShow.highlight}}</h3>
+        <p>{{currentShow.start_time}}
+          -
+          {{currentShow.end_time}}</p>
         <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
         <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>
-        <p ng-show="currentShow.italics">{{currentShow.italics}}</p>
-        <p ng-show="currentShow.is_live">{{currentShow.is_live}}</p>
         <p ng-show="currentShow.description">{{currentShow.description}}</p>
-        <p>{{currentShow.start_time}} - {{currentShow.end_time}}</p>
-        <p>
-          is_child_event:
-          {{currentShow.is_child_event}}
-          is_repeat:
-          {{currentShow.is_repeat}}
-          media_url:
-          {{currentShow.media_url}}
-          sound_quality:
-          {{currentShow.sound_quality}}
-          has_video:
-          {{currentShow.has_video}}
-          <ol>
-            <li ng-repeat="attr in currentShow.attributes">
-              id:
-              {{currentShow.attributes[0].id}}
-              description:
-              {{currentShow.attributes[0].description}}
-              name:
-              {{currentShow.attributes[0].name}}
-              attribute_description:
-              {{currentShow.attributes[0].attribute_description}}
-              attribute_pictogram:
-              <img ng-src="{{currentShow.attributes[0].attribute_pictogram}}"/>
-            </li>
-          </ol>
-          attributes_text:
-          {{currentShow.attributes_text}}
-          outer_links film_outer_link:
-          {{currentShow.outer_links.film_outer_link}}
-          watch_movie_link:
-          {{currentShow.outer_links.watch_movie_link}}
-          extra_link:
-          {{currentShow.outer_links.extra_link}}
-          media:
-          {{currentShow.media}}
-          restriction category:
-          {{currentShow.restriction.category}}
-          type:
-          {{currentShow.type}}
-        </p>
+        <p ng-show="currentShow.italics">{{currentShow.italics}}</p>
+        <ol display="inline">
+          <li ng-repeat="attr in currentShow.attributes">
+            <img ng-src="{{attr.attribute_pictogram}}"/>
+          </li>
+        </ol>
+        <p ng-show="currentShow.restriction.age_limit">age limit:{{currentShow.restriction.age_limit}}</p>
         <button class="button button-block button-positive" ng-click="nextShowsPanelToggle()">
           {{'NEXT_SHOWS' | translate}}
         </button>
         <ul class="list item-remove-animate" ng-show="nextShowsPanel">
           <li class="item" ng-repeat="next in nextShows">
             <h3>{{next.title}}</h3>
-            <p>{{next.start_time}} - {{next.end_time}}</p>
+            <p>{{next.start_time}}
+              -
+              {{next.end_time}}</p>
             <div>
-              {{next.short_description}}
-              <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>
-              <p ng-show="currentShow.description">{{currentShow.description}}</p>
+              <p ng-show="next.short_description">{{next.short_description}}</p>
+              <p ng-show="next.episode_title">{{next.episode_title}}</p>
+              <p ng-show="next.description">{{next.description}}</p>
+              age limit:
+              {{next.restriction.age_limit}}
             </div>
           </li>
         </ul>

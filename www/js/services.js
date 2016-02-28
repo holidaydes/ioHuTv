@@ -79,7 +79,7 @@ angular.module('starter.services', [])
     for (var i = 0; i < programs.length; i++) {
       if (TvTime.getTime(programs[i].start_time) <= currentTime && TvTime.getTime(programs[i].end_time) >= currentTime) {
         for (var j = 1; j <= amount; j++) {
-          if ((i + j) != programs.length) {
+          if ((i + j) < programs.length) {
             vm.next.push(programs[i + j]);
           }
         }
