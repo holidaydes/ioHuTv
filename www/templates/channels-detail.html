@@ -3,7 +3,7 @@
     <loading ng-hide="loaded"></loading>
     <div class="list card" ng-show="loaded">
 
-      <div class="item">
+      <div class="item" ng-show="tvGuideIsOn()">
         <h3 align="center">{{currentShow.title}}</h3>
       </div>
 
@@ -13,38 +13,41 @@
           <button class="button button-positive ion-ios-play-outline icon-left" ng-href="{{channel.link}}">{{'PLAY' | translate}}</button>
           <button class="button button-positive ion-ios-information-outline icon-left" ng-href="{{film_url}}">{{'INFO' | translate}}</button>
         </div>
-        <h3>{{currentShow.highlight}}</h3>
-        <p>{{currentShow.start_time}}
-          -
-          {{currentShow.end_time}}</p>
-        <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
-        <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>
-        <p ng-show="currentShow.description">{{currentShow.description}}</p>
-        <p ng-show="currentShow.italics">{{currentShow.italics}}</p>
-        <ol display="inline">
-          <li ng-repeat="attr in currentShow.attributes">
-            <img ng-src="{{attr.attribute_pictogram}}"/>
-          </li>
-        </ol>
-        <p ng-show="currentShow.restriction.age_limit">age limit:{{currentShow.restriction.age_limit}}</p>
-        <button class="button button-block button-positive" ng-click="nextShowsPanelToggle()">
-          {{'NEXT_SHOWS' | translate}}
-        </button>
-        <ul class="list item-remove-animate" ng-show="nextShowsPanel">
-          <li class="item" ng-repeat="next in nextShows">
-            <h3>{{next.title}}</h3>
-            <p>{{next.start_time}}
-              -
-              {{next.end_time}}</p>
-            <div>
-              <p ng-show="next.short_description">{{next.short_description}}</p>
-              <p ng-show="next.episode_title">{{next.episode_title}}</p>
-              <p ng-show="next.description">{{next.description}}</p>
-              age limit:
-              {{next.restriction.age_limit}}
-            </div>
-          </li>
-        </ul>
+        <div ng-show="tvGuideIsOn()">
+          <p>{{currentShow.start_time}}
+            -
+            {{currentShow.end_time}}</p>
+          <p ng-show="currentShow.highlight">{{currentShow.highlight}}</p>
+          <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
+          <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>
+          <p ng-show="currentShow.description">{{currentShow.description}}</p>
+          <p ng-show="currentShow.italics">{{currentShow.italics}}</p>
+          <ol display="inline">
+            <li ng-repeat="attr in currentShow.attributes">
+              <img ng-src="{{attr.attribute_pictogram}}"/>
+            </li>
+          </ol>
+          <p ng-show="currentShow.restriction.age_limit">age limit:{{currentShow.restriction.age_limit}}</p>
+          <button class="button button-block button-positive" ng-click="nextShowsPanelToggle()">
+            {{'NEXT_SHOWS' | translate}}
+          </button>
+          <ul class="list item-remove-animate" ng-show="nextShowsPanel">
+            <li class="item" ng-repeat="next in nextShows">
+              <h3>{{next.title}}</h3>
+              <p>{{next.start_time}}
+                -
+                {{next.end_time}}</p>
+              <div>
+                <p ng-show="next.highlight">{{next.highlight}}</p>
+                <p ng-show="next.short_description">{{next.short_description}}</p>
+                <p ng-show="next.episode_title">{{next.episode_title}}</p>
+                <p ng-show="next.description">{{next.description}}</p>
+                age limit:
+                {{next.restriction.age_limit}}
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
 
     </div>

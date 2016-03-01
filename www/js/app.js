@@ -59,34 +59,43 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 })
 
-.config(['$translateProvider', function ($translateProvider) {
+.config(['$translateProvider', function($translateProvider) {
   $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
 
   $translateProvider.translations('en', {
-    'CHANNELS' : 'Channels',
-    'SETTINGS' : 'Settings',
-    'LANGUAGE' : 'Language',
-    'LANG_EN' : 'English',
-    'LANG_HU' : 'Hungarian',
-    'NEXTLIMIT' : 'Program number',
-    'PLAY' : 'Play',
-    'INFO' : 'Port.hu',
-    'NEXT_SHOWS' : 'Next shows',
-    'TVGUIDE' : 'Tv guide'
+    'CHANNELS': 'Channels',
+    'SETTINGS': 'Settings',
+    'LANGUAGE': 'Language',
+    'LANG_EN': 'English',
+    'LANG_HU': 'Hungarian',
+    'NEXTLIMIT': 'Program number',
+    'PLAY': 'Play',
+    'INFO': 'Port.hu',
+    'NEXT_SHOWS': 'Next shows',
+    'TVGUIDE': 'Tv guide',
+    'TIMEOUT': 'Timeout'
   });
 
   $translateProvider.translations('hu', {
     'CHANNELS': 'Csatornák',
-    'SETTINGS' : 'Beállítások',
-    'LANGUAGE' : 'Nyelv',
-    'LANG_EN' : 'Angol',
-    'LANG_HU' : 'Magyar',
-    'NEXTLIMIT' : 'Program szám',
-    'PLAY' : 'Lejátszás',
-    'INFO' : 'Port.hu',
-    'NEXT_SHOWS' : 'Következő műsorok',
-    'TVGUIDE' : 'Műsorújság'
+    'SETTINGS': 'Beállítások',
+    'LANGUAGE': 'Nyelv',
+    'LANG_EN': 'Angol',
+    'LANG_HU': 'Magyar',
+    'NEXTLIMIT': 'Program szám',
+    'PLAY': 'Lejátszás',
+    'INFO': 'Port.hu',
+    'NEXT_SHOWS': 'Következő műsorok',
+    'TVGUIDE': 'Műsorújság',
+    'TIMEOUT': 'Idő túl lépés'
   });
 
   $translateProvider.preferredLanguage('hu');
-}]);
+}])
+
+.run(function($localstorage) {
+  $localstorage.set('language', 'hu');
+  $localstorage.set('nextLimit', 3);
+  $localstorage.set('tvGuideSwitch', true);
+  $localstorage.set('timeoutLimit', 5000);
+});
