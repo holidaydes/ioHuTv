@@ -14,9 +14,9 @@
           <button class="button button-positive ion-ios-information-outline icon-left" ng-href="{{film_url}}">{{'INFO' | translate}}</button>
         </div>
         <div ng-show="tvGuideIsOn()">
-          <p>{{currentShow.start_time}}
-            -
-            {{currentShow.end_time}}</p>
+          <div>
+            {{currentShow.start_time}} <progress id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress> {{currentShow.end_time}}
+          </div>
           <p ng-show="currentShow.highlight">{{currentShow.highlight}}</p>
           <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
           <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>

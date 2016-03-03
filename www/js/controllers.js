@@ -101,7 +101,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChannelsDetailCtrl', function($scope, $localstorage, $timeout, $stateParams, Channels, TvGuide, TvTime) {
+.controller('ChannelsDetailCtrl', function($scope, $localstorage, $timeout, $stateParams, Channels, TvGuide, TvTime, $interval) {
   $scope.port = Channels.port();
   $scope.port_default = Channels.port_default();
   $scope.channel = Channels.getChannel($stateParams.channelId);
@@ -159,11 +159,41 @@ angular.module('starter.controllers', [])
           $scope.film_url = $scope.port_default;
         }
         $scope.loaded = true;
+        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTime.getHours() + '' + TvTime.getMinutes());
+        $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
+        startprogress();
       }
       $timeout(function() {
         $scope.loaded = true;
+        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTime.getHours() + '' + TvTime.getMinutes());
+        $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
+        startprogress();
       }, $localstorage.get('timeoutLimit'));
     });
+  };
+
+  $scope.getProgressDuration = function(start, end){
+    return TvTime.getCurrentProgressMax(start, end);
+  };
+
+  $scope.getProgressValue = function(start, currentTime){
+    return TvTime.getCurrentProgress(start, currentTime);
+  };
+
+  $scope.stopinterval = null;
+
+  function startprogress() {
+    if ($scope.stopinterval) {
+      $interval.cancel($scope.stopinterval);
+    }
+
+    $scope.stopinterval = $interval(function() {
+      $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTime.getHours() + '' + TvTime.getMinutes());
+      if ($scope.progressval >= $scope.currentShowEndTime) {
+        $interval.cancel($scope.stopinterval);
+        return;
+      }
+    }, 1000);
   };
 
 });
