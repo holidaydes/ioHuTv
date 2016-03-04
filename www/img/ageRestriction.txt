@@ -1,0 +1,6 @@
+a2 szülöiengedéllyel
+a3 12
+a5 16
+a6 18
+a7 15
+a10 6

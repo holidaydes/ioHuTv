@@ -1,6 +1,5 @@
 {
 "port" : "http://port.hu/pls/w/tv_api.event_list?i_channel_id=",
-"port_default" : "http://port.hu",
 "channels" :[
 {
 "id" : 0,

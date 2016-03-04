@@ -70,7 +70,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'LANG_HU': 'Hungarian',
     'NEXTLIMIT': 'Program number',
     'PLAY': 'Play',
-    'INFO': 'Port.hu',
+    'INFO': 'Info',
     'NEXT_SHOWS': 'Next shows',
     'TVGUIDE': 'Tv guide',
     'TIMEOUT': 'Timeout'
@@ -84,7 +84,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'LANG_HU': 'Magyar',
     'NEXTLIMIT': 'Program szám',
     'PLAY': 'Lejátszás',
-    'INFO': 'Port.hu',
+    'INFO': 'Info',
     'NEXT_SHOWS': 'Következő műsorok',
     'TVGUIDE': 'Műsorújság',
     'TIMEOUT': 'Idő túl lépés'

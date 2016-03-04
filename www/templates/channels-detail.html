@@ -9,13 +9,12 @@
 
       <div class="item item-body">
         <img class="full-image" ng-src="{{capture}}">
-        <div class="button-bar">
-          <button class="button button-positive ion-ios-play-outline icon-left" ng-href="{{channel.link}}">{{'PLAY' | translate}}</button>
-          <button class="button button-positive ion-ios-information-outline icon-left" ng-href="{{film_url}}">{{'INFO' | translate}}</button>
-        </div>
+        <button class="button button-block button-positive" ng-href="{{channel.link}}">{{'PLAY' | translate}}</button>
         <div ng-show="tvGuideIsOn()">
           <div>
-            {{currentShow.start_time}} <progress id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress> {{currentShow.end_time}}
+            {{currentShow.start_time}}
+            <progress id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress>
+            {{currentShow.end_time}}
           </div>
           <p ng-show="currentShow.highlight">{{currentShow.highlight}}</p>
           <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
@@ -27,7 +26,10 @@
               <img ng-src="{{attr.attribute_pictogram}}"/>
             </li>
           </ol>
-          <p ng-show="currentShow.restriction.age_limit">age limit:{{currentShow.restriction.age_limit}}</p>
+          <p ng-show="currentShow.restriction.age_limit"><img width="20px" ng-src="{{getAge(currentShow.restriction.age_limit)}}" /></p>
+          <p ng-show="currentShow.film_url">
+            <a ng-href="{{currentShow.film_url}}" class="subdued ion-ios-information-outline"> {{'INFO' | translate}}</a>
+          </p>
           <button class="button button-block button-positive" ng-click="nextShowsPanelToggle()">
             {{'NEXT_SHOWS' | translate}}
           </button>
@@ -42,8 +44,9 @@
                 <p ng-show="next.short_description">{{next.short_description}}</p>
                 <p ng-show="next.episode_title">{{next.episode_title}}</p>
                 <p ng-show="next.description">{{next.description}}</p>
-                age limit:
-                {{next.restriction.age_limit}}
+                <p>
+                  <a ng-show="next.film_url" ng-href="{{next.film_url}}" class="subdued ion-ios-information-outline"> {{'INFO' | translate}}</a> <img width="15px" ng-src="{{getAge(next.restriction.age_limit)}}" />
+                </p>
               </div>
             </li>
           </ul>

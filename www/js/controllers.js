@@ -29,7 +29,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, Channels, TvGuide, TvTime) {
+.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, Channels, TvGuideService, TvTimeService, ExtrasService) {
   $scope.port;
   $scope.channels;
   $scope.port_ids = '';
@@ -37,6 +37,10 @@ angular.module('starter.controllers', [])
   $scope.loaded = false;
   /*default parameters*/
   $scope.default_logo = 'img/default_logo.gif';
+
+  $scope.getAge = function(age){
+    return ExtrasService.getAge(age);
+  };
 
   $scope.tvGuideIsOn = function() {
     if ($localstorage.get('tvGuideSwitch') === 'true') {
@@ -67,7 +71,7 @@ angular.module('starter.controllers', [])
 
   $scope.getCurrentShow = function(programs) {
     if (programs != undefined) {
-      return TvGuide.getCurrentShow(programs);
+      return TvGuideService.getCurrentShow(programs);
     }
     return null;
   };
@@ -85,13 +89,13 @@ angular.module('starter.controllers', [])
   };
 
   $scope.update = function() {
-    TvGuide.getTvGuides($scope.port, $scope.port_ids, TvTime.getDate());
+    TvGuideService.getTvGuides($scope.port, $scope.port_ids, TvTimeService.getDate());
     console.log('Query tv guides');
-    $scope.$watch(angular.bind(TvGuide, function() {
-      return TvGuide.channelTvGuides;
+    $scope.$watch(angular.bind(TvGuideService, function() {
+      return TvGuideService.channelTvGuides;
     }), function(value) {
       if (value) {
-        $scope.tvGuides = TvGuide.channelTvGuides;
+        $scope.tvGuides = TvGuideService.channelTvGuides;
         $scope.loaded = true;
       }
       $timeout(function() {
@@ -101,9 +105,8 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChannelsDetailCtrl', function($scope, $localstorage, $timeout, $stateParams, Channels, TvGuide, TvTime, $interval) {
+.controller('ChannelsDetailCtrl', function($scope, $localstorage, $timeout, $stateParams, $interval, Channels, TvGuideService, TvTimeService, ExtrasService) {
   $scope.port = Channels.port();
-  $scope.port_default = Channels.port_default();
   $scope.channel = Channels.getChannel($stateParams.channelId);
   $scope.tvGuide = '';
   $scope.currentShow = '';
@@ -111,7 +114,6 @@ angular.module('starter.controllers', [])
   $scope.loaded = false;
   /*default parameters*/
   $scope.capture = 'img/default.jpg';
-  $scope.film_url = $scope.port_default;
   /*view control parameters*/
   $scope.nextShowsPanel = false;
 
@@ -120,6 +122,10 @@ angular.module('starter.controllers', [])
       return true;
     }
     return false;
+  };
+
+  $scope.getAge = function(age){
+    return ExtrasService.getAge(age);
   };
 
   if ($scope.tvGuideIsOn()) {
@@ -139,33 +145,28 @@ angular.module('starter.controllers', [])
   };
 
   $scope.update = function() {
-    TvGuide.getTvGuide($scope.port, $scope.channel.port_id, TvTime.getDate());
+    TvGuideService.getTvGuide($scope.port, $scope.channel.port_id, TvTimeService.getDate());
     console.log('Query ' + $scope.channel.title + ' programs.');
-    $scope.$watch(angular.bind(TvGuide, function() {
-      return TvGuide.channelTvGuide;
+    $scope.$watch(angular.bind(TvGuideService, function() {
+      return TvGuideService.channelTvGuide;
     }), function(value) {
       if (value) {
-        $scope.tvGuide = TvGuide.channelTvGuide;
-        $scope.currentShow = TvGuide.getCurrentShow($scope.tvGuide.channels[0].programs);
-        $scope.nextShows = TvGuide.getNextShows($scope.tvGuide.channels[0].programs, $localstorage.get('nextLimit'));
+        $scope.tvGuide = TvGuideService.channelTvGuide;
+        $scope.currentShow = TvGuideService.getCurrentShow($scope.tvGuide.channels[0].programs);
+        $scope.nextShows = TvGuideService.getNextShows($scope.tvGuide.channels[0].programs, $localstorage.get('nextLimit'));
         if ($scope.tvGuide.channels[0].capture != null) {
           $scope.capture = $scope.tvGuide.channels[0].capture;
         } else {
           $scope.capture = 'img/default.jpg';
         }
-        if ($scope.currentShow.film_url != null) {
-          $scope.film_url = $scope.currentShow.film_url;
-        } else {
-          $scope.film_url = $scope.port_default;
-        }
         $scope.loaded = true;
-        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTime.getHours() + '' + TvTime.getMinutes());
+        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getHours() + '' + TvTimeService.getMinutes());
         $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
         startprogress();
       }
       $timeout(function() {
         $scope.loaded = true;
-        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTime.getHours() + '' + TvTime.getMinutes());
+        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getHours() + '' + TvTimeService.getMinutes());
         $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
         startprogress();
       }, $localstorage.get('timeoutLimit'));
@@ -173,11 +174,11 @@ angular.module('starter.controllers', [])
   };
 
   $scope.getProgressDuration = function(start, end){
-    return TvTime.getCurrentProgressMax(start, end);
+    return TvTimeService.getCurrentProgressMax(start, end);
   };
 
   $scope.getProgressValue = function(start, currentTime){
-    return TvTime.getCurrentProgress(start, currentTime);
+    return TvTimeService.getCurrentProgress(start, currentTime);
   };
 
   $scope.stopinterval = null;
@@ -188,7 +189,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.stopinterval = $interval(function() {
-      $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTime.getHours() + '' + TvTime.getMinutes());
+      $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getHours() + '' + TvTimeService.getMinutes());
       if ($scope.progressval >= $scope.currentShowEndTime) {
         $interval.cancel($scope.stopinterval);
         return;

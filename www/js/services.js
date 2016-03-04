@@ -18,9 +18,6 @@ angular.module('starter.services', [])
     port: function() {
       return vm.data.port;
     },
-    port_default: function() {
-      return vm.data.port_default;
-    },
     getChannel: function(channelId) {
       for (var i = 0; i < vm.data.channels.length; i++) {
         if (vm.data.channels[i].id === parseInt(channelId)) {
@@ -49,7 +46,7 @@ angular.module('starter.services', [])
   }
 }])
 
-.service('TvGuide', ['$http', 'TvTime', function($http, TvTime) {
+.service('TvGuideService', ['$http', 'TvTimeService', function($http, TvTimeService) {
 
   var vm = this;
   vm.channelTvGuide;
@@ -77,10 +74,10 @@ angular.module('starter.services', [])
 
   vm.getCurrentShow = function(programs) {
     vm.currentShow = '';
-    var currentTime = TvTime.getHours() + '' + TvTime.getMinutes();
+    var currentTime = TvTimeService.getHours() + '' + TvTimeService.getMinutes();
 
     for (var i = 0; i < programs.length; i++) {
-      if (TvTime.getTime(programs[i].start_time) <= currentTime && TvTime.getTime(programs[i].end_time) >= currentTime) {
+      if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
         vm.currentShow = programs[i];
         break;
       }
@@ -91,10 +88,10 @@ angular.module('starter.services', [])
 
   vm.getNextShows = function(programs, amount) {
     vm.next = [];
-    var currentTime = TvTime.getHours() + '' + TvTime.getMinutes();
+    var currentTime = TvTimeService.getHours() + '' + TvTimeService.getMinutes();
 
     for (var i = 0; i < programs.length; i++) {
-      if (TvTime.getTime(programs[i].start_time) <= currentTime && TvTime.getTime(programs[i].end_time) >= currentTime) {
+      if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
         for (var j = 1; j <= amount; j++) {
           if ((i + j) < programs.length) {
             vm.next.push(programs[i + j]);
@@ -109,7 +106,7 @@ angular.module('starter.services', [])
 
 }])
 
-.service('TvTime', [function() {
+.service('TvTimeService', [function() {
   var vm = this;
 
   vm.getDate = function() {
@@ -154,35 +151,35 @@ angular.module('starter.services', [])
     return hours + '' + minutes;
   };
 
-  vm.getHourForProgress = function(time){
-    if(time < 1000){
+  vm.getHourForProgress = function(time) {
+    if (time < 1000) {
       return time.toString().substring(0, 1);
     } else {
       return time.toString().substring(0, 2);
     }
   };
 
-  vm.getMinuteForProgress = function(time){
-    if(time < 1000){
+  vm.getMinuteForProgress = function(time) {
+    if (time < 1000) {
       return time.toString().substring(1);
     } else {
       return time.toString().substring(2);
     }
   };
 
-  vm.getDuration = function(startHour, startMinutes, endHour, endMinutes){
+  vm.getDuration = function(startHour, startMinutes, endHour, endMinutes) {
     var progressMax = 0;
-    if(startHour === 24) {
+    if (startHour === 24) {
       startHour = 0;
     }
-    if(startMinutes.toString().substring(0,1) === '0'){
+    if (startMinutes.toString().substring(0, 1) === '0') {
       startMinutes = startMinutes.toString().substring(1);
     }
-    if(endMinutes.toString().substring(0,1) === '0'){
+    if (endMinutes.toString().substring(0, 1) === '0') {
       endMinutes = endMinutes.toString().substring(1);
     }
     progressMax = (parseInt(endHour) * 60 + parseInt(endMinutes)) - (parseInt(startHour) * 60 + parseInt(startMinutes));
-    if(progressMax < 0){
+    if (progressMax < 0) {
       progressMax += 1440;
     }
     return progressMax;
@@ -209,4 +206,33 @@ angular.module('starter.services', [])
     return vm.getDuration(startHour, startMinutes, endHour, endMinutes);
   };
 
-}]);
+}])
+
+.service('ExtrasService', function() {
+  var vm = this;
+
+  vm.getAge = function(age) {
+    switch (age) {
+      case 2:
+        return 'img/age/parental_guidance_age_icon_mobil.png';
+        break;
+      case 3:
+        return 'img/age/12_age_icon_mobil.png';
+        break;
+      case 5:
+        return 'img/age/16_age_icon_mobil.png';
+        break;
+      case 6:
+        return 'img/age/18_age_icon_mobil.png';
+        break;
+      case 7:
+        return 'img/age/15_age_icon_mobil.png';
+        break;
+      case 10:
+        return 'img/age/6_age_icon_mobil.png';
+        break;
+      default:
+        return null;
+    }
+  };
+});

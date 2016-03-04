@@ -6,7 +6,7 @@
         <img src="{{getLogo(channel.id)}}">
         <h2>{{channel.title}}</h2>
         <p>
-          {{getCurrentShow(tvGuides.channels[channel.id].programs).title}}
+          {{getCurrentShow(tvGuides.channels[channel.id].programs).title}} <img width="15px" ng-src="{{getAge(getCurrentShow(tvGuides.channels[channel.id].programs).restriction.age_limit)}}" />
         </p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
