@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('SettingsCtrl', function($scope, $translate, $localstorage) {
+
   $scope.changeLanguage = function(langKey) {
     $translate.use(langKey);
   };
@@ -10,36 +11,36 @@ angular.module('starter.controllers', [])
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
 
   $scope.save = function(type, value) {
-    if (type === 0) {
-      $localstorage.set('nextLimit', value);
-      console.log('Next limit is set to ' + $localstorage.get('nextLimit'));
-    }
-    if (type === 1) {
-      $localstorage.set('tvGuideSwitch', value);
-      console.log('tvGuide is set to ' + $localstorage.get('tvGuideSwitch'));
-    }
-    if (type === 2) {
-      $localstorage.set('language', value);
-      console.log('Language is set to ' + $localstorage.get('language'));
-    }
-    if (type === 3) {
-      $localstorage.set('timeoutLimit', value);
-      console.log('Timeout is set to ' + $localstorage.get('timeoutLimit'));
+    switch (type) {
+      case 0:
+        $localstorage.set('nextLimit', value);
+        console.log('Next limit is set to ' + $localstorage.get('nextLimit'));
+        break;
+      case 1:
+        $localstorage.set('tvGuideSwitch', value);
+        console.log('tvGuide is set to ' + $localstorage.get('tvGuideSwitch'));
+        break;
+      case 2:
+        $localstorage.set('language', value);
+        console.log('Language is set to ' + $localstorage.get('language'));
+        break;
+      case 3:
+        $localstorage.set('timeoutLimit', value);
+        console.log('Timeout is set to ' + $localstorage.get('timeoutLimit'));
+        break;
     }
   };
 })
 
-.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, Channels, TvGuideService, TvTimeService, ExtrasService) {
+.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, Channels, TvGuideService, TvTimeService, ImageService) {
   $scope.port;
   $scope.channels;
   $scope.port_ids = '';
   $scope.tvGuides = '';
   $scope.loaded = false;
-  /*default parameters*/
-  $scope.default_logo = 'img/default_logo.gif';
 
-  $scope.getAge = function(age){
-    return ExtrasService.getAge(age);
+  $scope.getAge = function(age) {
+    return ImageService.getAge(age);
   };
 
   $scope.tvGuideIsOn = function() {
@@ -76,16 +77,8 @@ angular.module('starter.controllers', [])
     return null;
   };
 
-  $scope.getLogo = function(id) {
-    var logo;
-    if ($scope.tvGuides != '') {
-      if ($scope.tvGuides.channels[id].logo != null) {
-        logo = $scope.tvGuides.channels[id].logo;
-      }
-    } else {
-      logo = $scope.default_logo;
-    }
-    return logo;
+  $scope.getLogo = function(logo) {
+    return ImageService.getLogo(logo);
   };
 
   $scope.update = function() {
@@ -105,15 +98,16 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChannelsDetailCtrl', function($scope, $localstorage, $timeout, $stateParams, $interval, Channels, TvGuideService, TvTimeService, ExtrasService) {
+.controller('ChannelsDetailCtrl', function($scope, $localstorage, $timeout, $stateParams, $interval, $http, Channels, TvGuideService, TvTimeService, ImageService) {
   $scope.port = Channels.port();
   $scope.channel = Channels.getChannel($stateParams.channelId);
   $scope.tvGuide = '';
   $scope.currentShow = '';
   $scope.nextShows = [];
   $scope.loaded = false;
+  $scope.loadCapture = false;
   /*default parameters*/
-  $scope.capture = 'img/default.jpg';
+  $scope.capture = null;
   /*view control parameters*/
   $scope.nextShowsPanel = false;
 
@@ -124,13 +118,31 @@ angular.module('starter.controllers', [])
     return false;
   };
 
-  $scope.getAge = function(age){
-    return ExtrasService.getAge(age);
+  $scope.getAge = function(age) {
+    return ImageService.getAge(age);
+  };
+
+  $scope.getExtras = function(id) {
+    return ImageService.getExtras(id);
   };
 
   if ($scope.tvGuideIsOn()) {
     $scope.$on('$ionicView.enter', function(e) {
       $scope.update();
+      $scope.$watch(angular.bind(TvTimeService, function() {
+        return TvTimeService.getCurrentTime();
+      }), function(value) {
+        if ($scope.loaded) {
+          var endTime = TvTimeService.getTime($scope.currentShow.end_time);
+          if (value >= 2400 && endTime < 1000) {
+            endTime += 2400;
+          }
+          console.log(value + ' ' + endTime);
+          if (value > endTime) {
+            $scope.update();
+          }
+        }
+      });
     });
   } else {
     $scope.loaded = true;
@@ -154,30 +166,27 @@ angular.module('starter.controllers', [])
         $scope.tvGuide = TvGuideService.channelTvGuide;
         $scope.currentShow = TvGuideService.getCurrentShow($scope.tvGuide.channels[0].programs);
         $scope.nextShows = TvGuideService.getNextShows($scope.tvGuide.channels[0].programs, $localstorage.get('nextLimit'));
-        if ($scope.tvGuide.channels[0].capture != null) {
-          $scope.capture = $scope.tvGuide.channels[0].capture;
-        } else {
-          $scope.capture = 'img/default.jpg';
-        }
         $scope.loaded = true;
-        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getHours() + '' + TvTimeService.getMinutes());
+        $scope.capture = ImageService.getCapture($scope.tvGuide.channels[0].capture);
+        $scope.loadCapture = true;
+        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getCurrentTime());
         $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
         startprogress();
       }
       $timeout(function() {
         $scope.loaded = true;
-        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getHours() + '' + TvTimeService.getMinutes());
+        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getCurrentTime());
         $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
         startprogress();
       }, $localstorage.get('timeoutLimit'));
     });
   };
 
-  $scope.getProgressDuration = function(start, end){
+  $scope.getProgressDuration = function(start, end) {
     return TvTimeService.getCurrentProgressMax(start, end);
   };
 
-  $scope.getProgressValue = function(start, currentTime){
+  $scope.getProgressValue = function(start, currentTime) {
     return TvTimeService.getCurrentProgress(start, currentTime);
   };
 
@@ -189,7 +198,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.stopinterval = $interval(function() {
-      $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getHours() + '' + TvTimeService.getMinutes());
+      $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getCurrentTime());
       if ($scope.progressval >= $scope.currentShowEndTime) {
         $interval.cancel($scope.stopinterval);
         return;

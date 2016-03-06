@@ -58,7 +58,7 @@ angular.module('starter.services', [])
     $http.get(url).then(function(resp) {
       vm.channelTvGuide = resp.data;
     }, function(err) {
-      console.error('ERR', err);
+      console.error('Error', err);
     });
   };
 
@@ -68,13 +68,13 @@ angular.module('starter.services', [])
     $http.get(url).then(function(resp) {
       vm.channelTvGuides = resp.data;
     }, function(err) {
-      console.error('ERR', err);
+      console.error('Error', err);
     });
   };
 
   vm.getCurrentShow = function(programs) {
     vm.currentShow = '';
-    var currentTime = TvTimeService.getHours() + '' + TvTimeService.getMinutes();
+    var currentTime = TvTimeService.getCurrentTime();
 
     for (var i = 0; i < programs.length; i++) {
       if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
@@ -88,7 +88,7 @@ angular.module('starter.services', [])
 
   vm.getNextShows = function(programs, amount) {
     vm.next = [];
-    var currentTime = TvTimeService.getHours() + '' + TvTimeService.getMinutes();
+    var currentTime = TvTimeService.getCurrentTime();
 
     for (var i = 0; i < programs.length; i++) {
       if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
@@ -135,6 +135,10 @@ angular.module('starter.services', [])
     var date = new Date();
     var minutes = ((date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes());
     return minutes;
+  };
+
+  vm.getCurrentTime = function(){
+    return vm.getHours() + '' + vm.getMinutes();
   };
 
   vm.getTime = function(time) {
@@ -208,7 +212,7 @@ angular.module('starter.services', [])
 
 }])
 
-.service('ExtrasService', function() {
+.service('ImageService', function($http) {
   var vm = this;
 
   vm.getAge = function(age) {
@@ -235,4 +239,33 @@ angular.module('starter.services', [])
         return null;
     }
   };
+
+  vm.getExtras = function(attributeId) {
+    attributeId = parseInt(attributeId);
+    switch (attributeId) {
+      case 1:
+        return 'img/extras/icons_hd.png';
+        break;
+      case 2:
+        return 'img/extras/icons_deaf.png';
+        break;
+      default:
+        return null;
+    }
+  };
+
+  vm.getCapture = function(url) {
+    if (url === null || url === undefined) {
+      return 'img/default.jpg';
+    }
+    return url;
+  };
+
+  vm.getLogo = function(logo) {
+    if(logo === null || logo === undefined){
+      return 'img/default_logo.gif';
+    }
+    return logo;
+  };
+
 });

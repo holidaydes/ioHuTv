@@ -1,0 +1,19 @@
+todo list
+----------------------------------------------------------------------
++ channels-tab
+- style
++ channel-detail-tab:
+- progressbar inline
+? capture update fix (test)
+- style
++ settings-tab
+- language selector
+- checkbox fix
+- style
+? new function: refresh tvguide (channels-tab) (timeout)
+? new function: refresh channel detail (channel-detail-tab) (timeout)
+? new function: style selector
++ backend
+- add android platform
+- android intent (play, open)
+- optimizing code
