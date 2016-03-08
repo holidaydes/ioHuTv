@@ -73,7 +73,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'INFO': 'Info',
     'NEXT_SHOWS': 'Next shows',
     'TVGUIDE': 'Tv guide',
-    'TIMEOUT': 'Timeout'
+    'TIMEOUT': 'Timeout',
+    'REFRESH': 'Pull to refresh...'
   });
 
   $translateProvider.translations('hu', {
@@ -87,7 +88,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'INFO': 'Info',
     'NEXT_SHOWS': 'Következő műsorok',
     'TVGUIDE': 'Műsorújság',
-    'TIMEOUT': 'Idő túl lépés'
+    'TIMEOUT': 'Idő túl lépés',
+    'REFRESH': 'Húzza le a frissítéshez...'
   });
 
   $translateProvider.preferredLanguage('hu');

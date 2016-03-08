@@ -50,6 +50,16 @@ angular.module('starter.controllers', [])
     return false;
   };
 
+  $scope.doRefresh = function(){
+    if ($scope.tvGuideIsOn()) {
+      $scope.update();
+      console.log('Updated tvguide.');
+      $scope.$broadcast('scroll.refreshComplete');
+    } else {
+      console.log('Nothing happened.');
+    }
+  };
+
   $scope.$on('$ionicView.enter', function(e) {
     if ($scope.tvGuideIsOn()) {
       $scope.update();
@@ -137,9 +147,9 @@ angular.module('starter.controllers', [])
           if (value >= 2400 && endTime < 1000) {
             endTime += 2400;
           }
-          console.log(value + ' ' + endTime);
           if (value > endTime) {
             $scope.update();
+            console.log('Program was changed.');
           }
         }
       });

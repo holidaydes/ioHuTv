@@ -8,14 +8,13 @@
       </div>
 
       <div class="item item-body">
-        <loading ng-hide="loadCapture"></loading>
-        <img ng-show="loadCapture" class="full-image" ng-src="{{capture}}">
+        <img class="full-image" ng-src="{{capture}}">
         <button class="button button-block button-positive" ng-href="{{channel.link}}">{{'PLAY' | translate}}</button>
         <div ng-show="tvGuideIsOn()">
-          <div>
-            <div>{{currentShow.start_time}}</div>
-            <progress id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress>
-            <div>{{currentShow.end_time}}</div>
+          <div class="row">
+            <div class="col">{{currentShow.start_time}}</div>
+            <div class="col col-67"><progress class="progressbar" id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress></div>
+            <div class="col">{{currentShow.end_time}}</div>
           </div>
           <p ng-show="currentShow.highlight">{{currentShow.highlight}}</p>
           <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
