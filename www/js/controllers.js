@@ -2,39 +2,70 @@ angular.module('starter.controllers', [])
 
 .controller('SettingsCtrl', function($scope, $translate, $localstorage) {
 
-  $scope.changeLanguage = function(langKey) {
-    $translate.use(langKey);
-  };
-
-  $scope.nextLimit = $localstorage.get('nextLimit');
+  $scope.languagePanel = false;
+  $scope.language = $localstorage.get('language');
   $scope.tvGuide = $localstorage.get('tvGuideSwitch');
+  $scope.nextLimit = $localstorage.get('nextLimit');
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
   $scope.safeMode = $localstorage.get('safeMode');
+
+  $scope.changeLanguage = function(langKey) {
+    $translate.use(langKey);
+    $scope.save(0, langKey);
+    $scope.languagePanel = false;
+  };
 
   $scope.save = function(type, value) {
     switch (type) {
       case 0:
-        $localstorage.set('nextLimit', value);
-        console.log('Next limit is set to ' + $localstorage.get('nextLimit'));
+        $localstorage.set('language', value);
+        console.log('Language is set to ' + $localstorage.get('language'));
+        $scope.language = $localstorage.get('language');
         break;
       case 1:
         $localstorage.set('tvGuideSwitch', value);
         console.log('tvGuide is set to ' + $localstorage.get('tvGuideSwitch'));
+        $scope.tvGuide = $localstorage.get('tvGuideSwitch');
         break;
       case 2:
-        $localstorage.set('language', value);
-        console.log('Language is set to ' + $localstorage.get('language'));
+        $localstorage.set('nextLimit', value);
+        console.log('Next limit is set to ' + $localstorage.get('nextLimit'));
+        $scope.nextLimit = $localstorage.get('nextLimit');
         break;
       case 3:
         $localstorage.set('timeoutLimit', value);
         console.log('Timeout is set to ' + $localstorage.get('timeoutLimit'));
+        $scope.timeoutLimit = $localstorage.get('timeoutLimit');
         break;
       case 4:
         $localstorage.set('safeMode', value);
         console.log('SafeMode is set to ' + $localstorage.get('safeMode'));
+        $scope.safeMode = $localstorage.get('safeMode');
         break;
     }
   };
+
+  $scope.showLanguagePanel = function() {
+    if ($scope.languagePanel) {
+      $scope.languagePanel = false;
+    } else {
+      $scope.languagePanel = true;
+    }
+  };
+
+  $scope.currentLanguage = function() {
+    var lang;
+    switch ($scope.language) {
+      case 'hu':
+        lang = 'LANG_HU';
+        break;
+      case 'en':
+        lang = 'LANG_EN';
+        break;
+    }
+    return lang;
+  };
+
 })
 
 .controller('ChannelsCtrl', function($scope, $localstorage, $timeout, Channels, TvGuideService, TvTimeService, ImageService) {
