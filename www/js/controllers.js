@@ -9,6 +9,7 @@ angular.module('starter.controllers', [])
   $scope.nextLimit = $localstorage.get('nextLimit');
   $scope.tvGuide = $localstorage.get('tvGuideSwitch');
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
+  $scope.safeMode = $localstorage.get('safeMode');
 
   $scope.save = function(type, value) {
     switch (type) {
@@ -27,6 +28,10 @@ angular.module('starter.controllers', [])
       case 3:
         $localstorage.set('timeoutLimit', value);
         console.log('Timeout is set to ' + $localstorage.get('timeoutLimit'));
+        break;
+      case 4:
+        $localstorage.set('safeMode', value);
+        console.log('SafeMode is set to ' + $localstorage.get('safeMode'));
         break;
     }
   };
@@ -50,7 +55,7 @@ angular.module('starter.controllers', [])
     return false;
   };
 
-  $scope.doRefresh = function(){
+  $scope.doRefresh = function() {
     if ($scope.tvGuideIsOn()) {
       $scope.update();
       console.log('Updated tvguide.');

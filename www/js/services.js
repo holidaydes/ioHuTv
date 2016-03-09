@@ -46,11 +46,18 @@ angular.module('starter.services', [])
   }
 }])
 
-.service('TvGuideService', ['$http', 'TvTimeService', function($http, TvTimeService) {
+.service('TvGuideService', ['$http', '$localstorage', 'TvTimeService', function($http, $localstorage, TvTimeService) {
 
   var vm = this;
   vm.channelTvGuide;
   vm.channelTvGuides;
+
+  vm.safeModeIsOn = function() {
+    if ($localstorage.get('safeMode') === 'true') {
+      return true;
+    }
+    return false;
+  };
 
   vm.getTvGuide = function(port, port_id, date) {
     var url = port + port_id + '&i_portdate=' + date;
@@ -73,35 +80,38 @@ angular.module('starter.services', [])
   };
 
   vm.getCurrentShow = function(programs) {
-    vm.currentShow = '';
-    var currentTime = TvTimeService.getCurrentTime();
-
-    for (var i = 0; i < programs.length; i++) {
-      if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
-        vm.currentShow = programs[i];
-        break;
-      }
-    }
-
-    return vm.currentShow;
+    return programs[vm.getShowIterator(programs)];
   };
 
   vm.getNextShows = function(programs, amount) {
     vm.next = [];
-    var currentTime = TvTimeService.getCurrentTime();
-
-    for (var i = 0; i < programs.length; i++) {
-      if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
-        for (var j = 1; j <= amount; j++) {
-          if ((i + j) < programs.length) {
-            vm.next.push(programs[i + j]);
-          }
-        }
-        break;
+    var i = vm.getShowIterator(programs);
+    
+    for (var j = 1; j <= amount; j++) {
+      if ((i + j) < programs.length) {
+        vm.next.push(programs[i + j]);
       }
     }
-
     return vm.next;
+  };
+
+  vm.getShowIterator = function(programs){
+    if (vm.safeModeIsOn()) {
+      for (var i = 0; i < programs.length; i++) {
+        if (programs[i].is_live) {
+          return i;
+          break;
+        }
+      }
+    } else {
+      var currentTime = TvTimeService.getCurrentTime();
+      for (var i = 0; i < programs.length; i++) {
+        if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
+          return i;
+          break;
+        }
+      }
+    }
   };
 
 }])
@@ -137,7 +147,7 @@ angular.module('starter.services', [])
     return minutes;
   };
 
-  vm.getCurrentTime = function(){
+  vm.getCurrentTime = function() {
     return vm.getHours() + '' + vm.getMinutes();
   };
 
@@ -262,7 +272,7 @@ angular.module('starter.services', [])
   };
 
   vm.getLogo = function(logo) {
-    if(logo === null || logo === undefined){
+    if (logo === null || logo === undefined) {
       return 'img/default_logo.gif';
     }
     return logo;

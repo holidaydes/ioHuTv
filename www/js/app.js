@@ -74,7 +74,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'NEXT_SHOWS': 'Next shows',
     'TVGUIDE': 'Tv guide',
     'TIMEOUT': 'Timeout',
-    'REFRESH': 'Pull to refresh...'
+    'REFRESH': 'Pull to refresh...',
+    'SAFEMODE': 'Safe mode'
   });
 
   $translateProvider.translations('hu', {
@@ -89,7 +90,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'NEXT_SHOWS': 'Következő műsorok',
     'TVGUIDE': 'Műsorújság',
     'TIMEOUT': 'Idő túl lépés',
-    'REFRESH': 'Húzza le a frissítéshez...'
+    'REFRESH': 'Húzza le a frissítéshez...',
+    'SAFEMODE': 'Biztonsági mód'
   });
 
   $translateProvider.preferredLanguage('hu');
@@ -100,4 +102,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $localstorage.set('nextLimit', 3);
   $localstorage.set('tvGuideSwitch', true);
   $localstorage.set('timeoutLimit', 5000);
+  $localstorage.set('safeMode', false);
 });
