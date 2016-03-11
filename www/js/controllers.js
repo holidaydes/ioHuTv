@@ -4,10 +4,25 @@ angular.module('starter.controllers', [])
 
   $scope.languagePanel = false;
   $scope.language = $localstorage.get('language');
-  $scope.tvGuide = $localstorage.get('tvGuideSwitch');
   $scope.nextLimit = $localstorage.get('nextLimit');
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
-  $scope.safeMode = $localstorage.get('safeMode');
+
+  $scope.tvGuideIsOn = function() {
+    if ($localstorage.get('tvGuideSwitch') === 'true') {
+      return true;
+    }
+    return false;
+  };
+
+  $scope.safeModeIsOn = function() {
+    if ($localstorage.get('safeMode') === 'true') {
+      return true;
+    }
+    return false;
+  };
+
+  $scope.tvGuide = $scope.tvGuideIsOn();
+  $scope.safeMode = $scope.safeModeIsOn();
 
   $scope.changeLanguage = function(langKey) {
     $translate.use(langKey);

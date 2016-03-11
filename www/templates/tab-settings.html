@@ -11,7 +11,7 @@
     <div class="item item-toggle">
       <label>{{'TVGUIDE' | translate}}</label>
       <label class="toggle toggle-positive">
-        <input type="checkbox" ng-model="tvGuide" ng-change="save(1, tvGuide)">
+        <input type="checkbox" ng-model="tvGuide" ng-checked="tvGuide" ng-change="save(1, tvGuide)">
         <div class="track">
           <div class="handle"></div>
         </div>
@@ -20,18 +20,18 @@
     <div ng-show="tvGuide">
       <div class="item range range-positive">
         <label>{{'NEXTLIMIT' | translate}}</label>
-        <input type="range" ng-disabled="!tvGuide" ng-model="nextLimit" ng-change="save(2, nextLimit)" name="volume" min="1" max="10" value="{{nextLimit}}">
+        <input type="range" ng-model="nextLimit" ng-change="save(2, nextLimit)" name="volume" min="1" max="10" value="{{nextLimit}}">
         <span class="item-note">{{nextLimit}}</span>
       </div>
       <div class="item range range-positive">
         <label>{{'TIMEOUT' | translate}}</label>
-        <input type="range" ng-disabled="!tvGuide" ng-model="timeoutLimit" ng-change="save(3, timeoutLimit)" name="volume" min="1000" max="10000" step="1000" value="{{timeoutLimit}}">
+        <input type="range" ng-model="timeoutLimit" ng-change="save(3, timeoutLimit)" name="volume" min="1000" max="10000" step="1000" value="{{timeoutLimit}}">
         <span class="item-note">{{timeoutLimit}}</span>
       </div>
       <div class="item item-toggle">
         <label>{{'SAFEMODE' | translate}}</label>
         <label class="toggle toggle-positive">
-          <input type="checkbox" ng-disabled="!tvGuide" ng-model="safeMode" ng-change="save(4, safeMode)">
+          <input type="checkbox" ng-model="safeMode" ng-checked="safeMode" ng-change="save(4, safeMode)">
           <div class="track">
             <div class="handle"></div>
           </div>
