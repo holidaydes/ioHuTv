@@ -1,5 +1,5 @@
 <ion-view cache-view="false" view-title="{{'CHANNELS' | translate}}">
-  <ion-content>
+  <ion-content ng-show="tvGuideIsOn()">
     <ion-refresher pulling-text="{{'REFRESH' | translate}}" on-refresh="doRefresh()"></ion-refresher>
     <loading ng-hide="loaded"></loading>
     <ion-list ng-show="loaded">
@@ -14,4 +14,5 @@
       </ion-item>
     </ion-list>
   </ion-content>
+  <notvguide ng-hide="tvGuideIsOn()"></notvguide>
 </ion-view>

@@ -21,12 +21,12 @@
       <div class="item range range-positive">
         <label>{{'NEXTLIMIT' | translate}}</label>
         <input type="range" ng-model="nextLimit" ng-change="save(2, nextLimit)" name="volume" min="1" max="10" value="{{nextLimit}}">
-        <span class="item-note">{{nextLimit}}</span>
+        {{nextLimit}}
       </div>
       <div class="item range range-positive">
         <label>{{'TIMEOUT' | translate}}</label>
         <input type="range" ng-model="timeoutLimit" ng-change="save(3, timeoutLimit)" name="volume" min="1000" max="10000" step="1000" value="{{timeoutLimit}}">
-        <span class="item-note">{{timeoutLimit}}</span>
+        {{timeoutLimit}}
       </div>
       <div class="item item-toggle">
         <label>{{'SAFEMODE' | translate}}</label>

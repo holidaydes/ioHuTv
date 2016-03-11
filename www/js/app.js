@@ -93,14 +93,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'REFRESH': 'Húzza le a frissítéshez...',
     'SAFEMODE': 'Biztonsági mód'
   });
-
-  $translateProvider.preferredLanguage('hu');
+  //$translateProvider.preferredLanguage('hu');
 }])
 
-.run(function($localstorage) {
+.run(function($localstorage, $translate) {
   $localstorage.set('language', 'hu');
   $localstorage.set('nextLimit', 3);
   $localstorage.set('tvGuideSwitch', true);
   $localstorage.set('timeoutLimit', 5000);
   $localstorage.set('safeMode', false);
+
+  $translate.use($localstorage.get('language'));
 });

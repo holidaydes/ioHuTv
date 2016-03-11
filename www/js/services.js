@@ -5,7 +5,14 @@ angular.module('starter.services', [])
 
   vm.data = {};
 
-  $http.get('/resource/channels.json').then(function(resp) {
+  var url = "";
+  if (ionic.Platform.isAndroid()) {
+    url = "/android_asset/www/resource/channels.json";
+  } else {
+    url = "/resource/channels.json";
+  }
+
+  $http.get(url).then(function(resp) {
     vm.data = resp.data;
   }, function(err) {
     console.error('ERR', err);
@@ -86,7 +93,7 @@ angular.module('starter.services', [])
   vm.getNextShows = function(programs, amount) {
     vm.next = [];
     var i = vm.getShowIterator(programs);
-    
+
     for (var j = 1; j <= amount; j++) {
       if ((i + j) < programs.length) {
         vm.next.push(programs[i + j]);
@@ -95,7 +102,7 @@ angular.module('starter.services', [])
     return vm.next;
   };
 
-  vm.getShowIterator = function(programs){
+  vm.getShowIterator = function(programs) {
     if (vm.safeModeIsOn()) {
       for (var i = 0; i < programs.length; i++) {
         if (programs[i].is_live) {

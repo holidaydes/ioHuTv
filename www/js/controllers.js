@@ -131,6 +131,20 @@ angular.module('starter.controllers', [])
     }
   });
 
+  $scope.send = function(link) {
+    window.plugins.webintent.startActivity({
+        action: window.plugins.webintent.ACTION_VIEW,
+        url: link,
+        type: 'application/x-mpegURL'
+      },
+      function() {},
+      function() {
+        alert('Failed to open URL via Android Intent.');
+        console.log("Failed to open URL via Android Intent.");
+      }
+    )
+  };
+
   $scope.getCurrentShow = function(programs) {
     if (programs != undefined) {
       return TvGuideService.getCurrentShow(programs);
@@ -208,6 +222,20 @@ angular.module('starter.controllers', [])
   } else {
     $scope.loaded = true;
   }
+
+  $scope.send = function(link) {
+    window.plugins.webintent.startActivity({
+        action: window.plugins.webintent.ACTION_VIEW,
+        url: link,
+        type: 'application/x-mpegURL'
+      },
+      function() {},
+      function() {
+        alert('Failed to open URL via Android Intent.');
+        console.log("Failed to open URL via Android Intent.");
+      }
+    )
+  };
 
   $scope.nextShowsPanelToggle = function() {
     if ($scope.nextShowsPanel) {

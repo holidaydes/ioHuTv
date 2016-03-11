@@ -1,16 +1,16 @@
 <ion-view view-title="{{channel.title}}">
   <ion-content class="padding">
     <loading ng-hide="loaded"></loading>
-    <div class="list card" ng-show="loaded">
+    <div ng-show="loaded">
 
-      <div class="item" ng-show="tvGuideIsOn()">
+      <div>
         <h3 align="center">{{currentShow.title}}</h3>
       </div>
 
-      <div class="item item-body">
+      <div>
         <img class="full-image" ng-src="{{capture}}">
-        <button class="button button-block button-positive" ng-href="{{channel.link}}">{{'PLAY' | translate}}</button>
-        <div ng-show="tvGuideIsOn()">
+        <button class="button button-block button-positive" ng-click="send(channel.link)">{{'PLAY' | translate}}</button>
+        <div>
           <div class="row">
             <div class="col">{{currentShow.start_time}}</div>
             <div class="col col-67"><progress class="progressbar" id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress></div>
@@ -36,7 +36,7 @@
           <button class="button button-block button-positive" ng-click="nextShowsPanelToggle()">
             {{'NEXT_SHOWS' | translate}}
           </button>
-          <ul class="list item-remove-animate" ng-show="nextShowsPanel">
+          <ul class="list" ng-show="nextShowsPanel">
             <li class="item" ng-repeat="next in nextShows">
               <h3>{{next.title}}</h3>
               <p>{{next.start_time}}

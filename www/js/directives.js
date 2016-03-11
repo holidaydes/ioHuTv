@@ -5,4 +5,11 @@ angular.module('starter.directives', [])
     restrict: 'E',
     templateUrl: 'templates/loading.html'
   }
+})
+
+.directive('notvguide', function(){
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/noTvGuide.html'
+  }
 });
