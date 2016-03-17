@@ -3,7 +3,7 @@
     <ion-refresher pulling-text="{{'REFRESH' | translate}}" on-refresh="doRefresh()"></ion-refresher>
     <loading ng-hide="loaded"></loading>
     <ion-list ng-show="loaded">
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="channel in channels" type="item-text-wrap" href="#/tab/channels/{{channel.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="channel in channels" type="item-text-wrap" ng-click="openModal(channel.id)">
         <img ng-src="{{getLogo(tvGuides.channels[channel.id].logo)}}">
         <h2>{{channel.title}}</h2>
         <p>

@@ -45,15 +45,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    .state('tab.channels-detail', {
-      url: '/channels/:channelId',
-      views: {
-        'tab-channels': {
-          templateUrl: 'templates/channels-detail.html',
-          controller: 'ChannelsDetailCtrl'
-        }
-      }
-    })
 
   $urlRouterProvider.otherwise('/tab/channels');
 
@@ -75,7 +66,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'TVGUIDE': 'Tv guide',
     'TIMEOUT': 'Timeout',
     'REFRESH': 'Pull to refresh...',
-    'SAFEMODE': 'Safe mode'
+    'SAFEMODE': 'Safe mode',
+    'CLOSE': 'Close',
+    'UP': 'Up'
   });
 
   $translateProvider.translations('hu', {
@@ -91,7 +84,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'TVGUIDE': 'Műsorújság',
     'TIMEOUT': 'Idő túl lépés',
     'REFRESH': 'Húzza le a frissítéshez...',
-    'SAFEMODE': 'Biztonsági mód'
+    'SAFEMODE': 'Biztonsági mód',
+    'CLOSE': 'Bezár',
+    'UP': 'Fel'
   });
   //$translateProvider.preferredLanguage('hu');
 }])

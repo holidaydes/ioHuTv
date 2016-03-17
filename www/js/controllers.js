@@ -83,12 +83,40 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, Channels, TvGuideService, TvTimeService, ImageService) {
+.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, $interval, $ionicModal, $ionicScrollDelegate, Channels, TvGuideService, TvTimeService, ImageService) {
   $scope.port;
   $scope.channels;
   $scope.port_ids = '';
   $scope.tvGuides = '';
   $scope.loaded = false;
+
+  $ionicModal.fromTemplateUrl('templates/channelView.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function(id) {
+    $scope.channel = Channels.getChannel(id);
+    $scope.updateChannel();
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.scrollTop();
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
 
   $scope.getAge = function(age) {
     return ImageService.getAge(age);
@@ -130,7 +158,7 @@ angular.module('starter.controllers', [])
       }
     }
   });
-
+/*
   $scope.send = function(link) {
     window.plugins.webintent.startActivity({
         action: window.plugins.webintent.ACTION_VIEW,
@@ -144,7 +172,7 @@ angular.module('starter.controllers', [])
       }
     )
   };
-
+*/
   $scope.getCurrentShow = function(programs) {
     if (programs != undefined) {
       return TvGuideService.getCurrentShow(programs);
@@ -171,11 +199,8 @@ angular.module('starter.controllers', [])
       }, $localstorage.get('timeoutLimit'));
     });
   };
-})
 
-.controller('ChannelsDetailCtrl', function($scope, $localstorage, $timeout, $stateParams, $interval, $http, Channels, TvGuideService, TvTimeService, ImageService) {
   $scope.port = Channels.port();
-  $scope.channel = Channels.getChannel($stateParams.channelId);
   $scope.tvGuide = '';
   $scope.currentShow = '';
   $scope.nextShows = [];
@@ -186,13 +211,6 @@ angular.module('starter.controllers', [])
   /*view control parameters*/
   $scope.nextShowsPanel = false;
 
-  $scope.tvGuideIsOn = function() {
-    if ($localstorage.get('tvGuideSwitch') === 'true') {
-      return true;
-    }
-    return false;
-  };
-
   $scope.getAge = function(age) {
     return ImageService.getAge(age);
   };
@@ -200,7 +218,7 @@ angular.module('starter.controllers', [])
   $scope.getExtras = function(id) {
     return ImageService.getExtras(id);
   };
-
+/*
   if ($scope.tvGuideIsOn()) {
     $scope.$on('$ionicView.enter', function(e) {
       $scope.update();
@@ -222,7 +240,7 @@ angular.module('starter.controllers', [])
   } else {
     $scope.loaded = true;
   }
-
+*/
   $scope.send = function(link) {
     window.plugins.webintent.startActivity({
         action: window.plugins.webintent.ACTION_VIEW,
@@ -237,15 +255,7 @@ angular.module('starter.controllers', [])
     )
   };
 
-  $scope.nextShowsPanelToggle = function() {
-    if ($scope.nextShowsPanel) {
-      $scope.nextShowsPanel = false;
-    } else {
-      $scope.nextShowsPanel = true;
-    }
-  };
-
-  $scope.update = function() {
+  $scope.updateChannel = function() {
     TvGuideService.getTvGuide($scope.port, $scope.channel.port_id, TvTimeService.getDate());
     console.log('Query ' + $scope.channel.title + ' programs.');
     $scope.$watch(angular.bind(TvGuideService, function() {
@@ -293,6 +303,14 @@ angular.module('starter.controllers', [])
         return;
       }
     }, 1000);
+  };
+
+  $scope.scrollTop = function() {
+    $ionicScrollDelegate.scrollTop();
+  };
+
+  $scope.scrollBottom = function() {
+    $ionicScrollDelegate.scrollBottom(true);
   };
 
 });

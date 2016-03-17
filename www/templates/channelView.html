@@ -1,0 +1,66 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">{{channel.title}}</h1>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list card">
+      <div class="item item-avatar">
+        <img ng-src="{{getLogo(tvGuides.channels[channel.id].logo)}}">
+        <h2>{{currentShow.title}} <img width="20px" ng-src="{{getAge(currentShow.restriction.age_limit)}}"/></h2>
+        <p>{{currentShow.start_time}}
+          -
+          {{currentShow.end_time}}</p>
+      </div>
+
+      <div class="item item-body">
+        <img class="full-image" ng-src="{{capture}}">
+        <progress class="progressbar" id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress>
+        <button class="button button-block button-positive" ng-click="send(channel.link)">{{'PLAY' | translate}}</button>
+        <div>
+          <p ng-show="currentShow.highlight">{{currentShow.highlight}}</p>
+          <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
+          <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>
+          <p ng-show="currentShow.description">{{currentShow.description}}</p>
+          <!--<p ng-show="currentShow.italics">{{currentShow.italics}}</p>-->
+          <div>
+            <a ng-show="currentShow.film_url" ng-href="{{currentShow.film_url}}" class="subdued ion-ios-information-outline">
+              {{'INFO' | translate}}</a>
+            <!--<a ng-show="currentShow.restriction.age_limit" class="subdued"></a>-->
+            <!--<ul ng-repeat="attr in currentShow.attributes" class="list inline">
+              <li>
+                <span><img ng-src="{{getExtras(attr.id)}}"/></span>
+              </li>
+            </ul>-->
+          </div>
+          <!--<ul class="list">
+            <li class="item" ng-repeat="next in nextShows">
+              <h4>{{next.title}}</h4>
+              <p>{{next.start_time}}
+                -
+                {{next.end_time}}</p>
+              <div>
+                <p ng-show="next.highlight">{{next.highlight}}</p>
+                <p ng-show="next.short_description">{{next.short_description}}</p>
+                <p ng-show="next.episode_title">{{next.episode_title}}</p>
+                <p ng-show="next.description">{{next.description}}</p>
+                  <a ng-show="next.film_url" ng-href="{{next.film_url}}" class="subdued ion-ios-information-outline">
+                    {{'INFO' | translate}}</a>
+                  <a href="#" class="subdued"><img width="15px" ng-src="{{getAge(next.restriction.age_limit)}}"/></a>
+              </div>
+            </li>
+          </ul>-->
+          <button class="button button-block button-positive" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
+          <button class="button button-block button-positive" ng-click="scrollBottom()">{{'NEXT_SHOWS' | translate}}</button>
+          <ion-list>
+            <ion-item ng-repeat="next in nextShows">
+              <h4>{{next.title}} <img width="15px" ng-src="{{getAge(next.restriction.age_limit)}}"/></h4>
+              <small>{{next.start_time}} - {{next.end_time}}</small>
+            </ion-item>
+          </ion-list>
+          <a class="subdued" ng-click="scrollTop()">{{'UP' | translate}}</a>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-modal-view>
