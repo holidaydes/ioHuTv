@@ -83,12 +83,22 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, $interval, $ionicModal, $ionicScrollDelegate, Channels, TvGuideService, TvTimeService, ImageService) {
+.controller('ChannelsCtrl', function($scope, $ionicPopup, $localstorage, $timeout, $interval, $ionicModal, $ionicScrollDelegate, Channels, TvGuideService, TvTimeService, ImageService) {
   $scope.port;
   $scope.channels;
   $scope.port_ids = '';
   $scope.tvGuides = '';
   $scope.loaded = false;
+  $scope.port = Channels.port();
+  $scope.tvGuide = '';
+  $scope.currentShow = '';
+  $scope.nextShows = [];
+  $scope.loaded = false;
+  $scope.loadCapture = false;
+  /*default parameters*/
+  $scope.capture = null;
+  /*view control parameters*/
+  $scope.nextShowsPanel = false;
 
   $ionicModal.fromTemplateUrl('templates/channelView.html', {
     scope: $scope,
@@ -156,23 +166,10 @@ angular.module('starter.controllers', [])
       for (var i = 0; i < $scope.channels.length; i++) {
         $scope.port_ids += $scope.channels[i].port_id + ((!($scope.channels.length - 1)) ? '' : ',');
       }
+      $scope.update();
     }
   });
-/*
-  $scope.send = function(link) {
-    window.plugins.webintent.startActivity({
-        action: window.plugins.webintent.ACTION_VIEW,
-        url: link,
-        type: 'application/x-mpegURL'
-      },
-      function() {},
-      function() {
-        alert('Failed to open URL via Android Intent.');
-        console.log("Failed to open URL via Android Intent.");
-      }
-    )
-  };
-*/
+
   $scope.getCurrentShow = function(programs) {
     if (programs != undefined) {
       return TvGuideService.getCurrentShow(programs);
@@ -200,17 +197,6 @@ angular.module('starter.controllers', [])
     });
   };
 
-  $scope.port = Channels.port();
-  $scope.tvGuide = '';
-  $scope.currentShow = '';
-  $scope.nextShows = [];
-  $scope.loaded = false;
-  $scope.loadCapture = false;
-  /*default parameters*/
-  $scope.capture = null;
-  /*view control parameters*/
-  $scope.nextShowsPanel = false;
-
   $scope.getAge = function(age) {
     return ImageService.getAge(age);
   };
@@ -218,29 +204,29 @@ angular.module('starter.controllers', [])
   $scope.getExtras = function(id) {
     return ImageService.getExtras(id);
   };
-/*
-  if ($scope.tvGuideIsOn()) {
-    $scope.$on('$ionicView.enter', function(e) {
-      $scope.update();
-      $scope.$watch(angular.bind(TvTimeService, function() {
-        return TvTimeService.getCurrentTime();
-      }), function(value) {
-        if ($scope.loaded) {
-          var endTime = TvTimeService.getTime($scope.currentShow.end_time);
-          if (value >= 2400 && endTime < 1000) {
-            endTime += 2400;
+  /*
+    if ($scope.tvGuideIsOn()) {
+      $scope.$on('$ionicView.enter', function(e) {
+        $scope.update();
+        $scope.$watch(angular.bind(TvTimeService, function() {
+          return TvTimeService.getCurrentTime();
+        }), function(value) {
+          if ($scope.loaded) {
+            var endTime = TvTimeService.getTime($scope.currentShow.end_time);
+            if (value >= 2400 && endTime < 1000) {
+              endTime += 2400;
+            }
+            if (value > endTime) {
+              $scope.update();
+              console.log('Program was changed.');
+            }
           }
-          if (value > endTime) {
-            $scope.update();
-            console.log('Program was changed.');
-          }
-        }
+        });
       });
-    });
-  } else {
-    $scope.loaded = true;
-  }
-*/
+    } else {
+      $scope.loaded = true;
+    }
+  */
   $scope.send = function(link) {
     window.plugins.webintent.startActivity({
         action: window.plugins.webintent.ACTION_VIEW,
@@ -313,4 +299,18 @@ angular.module('starter.controllers', [])
     $ionicScrollDelegate.scrollBottom(true);
   };
 
+  $scope.showPopup = function(next) {
+    $scope.data = next;
+
+    var myPopup = $ionicPopup.show({
+      templateUrl: 'templates/nextShowPopup.html',
+      title: next.title,
+      subTitle: next.start_time + ' - ' + next.end_time,
+      scope: $scope,
+      buttons: [{
+        text: 'Ok',
+        type: 'button-positive'
+      }]
+    });
+  };
 });

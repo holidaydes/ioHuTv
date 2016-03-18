@@ -16,40 +16,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
-
-  $stateProvider
-
-    .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
-  })
-
-  .state('tab.settings', {
-    url: '/settings',
-    views: {
-      'tab-settings': {
-        templateUrl: 'templates/tab-settings.html',
-        controller: 'SettingsCtrl'
-      }
-    }
-  })
-
-  .state('tab.channels', {
-      url: '/channels',
-      views: {
-        'tab-channels': {
-          templateUrl: 'templates/tab-channels.html',
-          controller: 'ChannelsCtrl'
-        }
-      }
-    })
-
-  $urlRouterProvider.otherwise('/tab/channels');
-
-})
-
 .config(['$translateProvider', function($translateProvider) {
   $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
 
