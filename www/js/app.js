@@ -25,16 +25,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'LANGUAGE': 'Language',
     'LANG_EN': 'English',
     'LANG_HU': 'Hungarian',
-    'NEXTLIMIT': 'Program number',
     'PLAY': 'Play',
     'INFO': 'Info',
-    'NEXT_SHOWS': 'Next shows',
+    'NEXT_SHOWS': 'Next show',
     'TVGUIDE': 'Tv guide',
     'TIMEOUT': 'Timeout',
     'REFRESH': 'Pull to refresh...',
     'SAFEMODE': 'Safe mode',
-    'CLOSE': 'Close',
-    'UP': 'Up'
+    'CLOSE': 'Close'
   });
 
   $translateProvider.translations('hu', {
@@ -43,23 +41,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'LANGUAGE': 'Nyelv',
     'LANG_EN': 'Angol',
     'LANG_HU': 'Magyar',
-    'NEXTLIMIT': 'Program szám',
     'PLAY': 'Lejátszás',
     'INFO': 'Info',
-    'NEXT_SHOWS': 'Következő műsorok',
+    'NEXT_SHOWS': 'Következő műsor',
     'TVGUIDE': 'Műsorújság',
     'TIMEOUT': 'Idő túl lépés',
     'REFRESH': 'Húzza le a frissítéshez...',
     'SAFEMODE': 'Biztonsági mód',
-    'CLOSE': 'Bezár',
-    'UP': 'Fel'
+    'CLOSE': 'Bezár'
   });
   //$translateProvider.preferredLanguage('hu');
 }])
 
 .run(function($localstorage, $translate) {
   $localstorage.set('language', 'hu');
-  $localstorage.set('nextLimit', 3);
   $localstorage.set('tvGuideSwitch', true);
   $localstorage.set('timeoutLimit', 5000);
   $localstorage.set('safeMode', false);

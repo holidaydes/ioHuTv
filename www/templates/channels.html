@@ -1,10 +1,11 @@
 <ion-side-menus enable-menu-with-back-views="true">
 
   <ion-side-menu-content ng-controller="ChannelsCtrl">
-    <ion-header-bar align-title="center" class="bar-dark">
+    <ion-header-bar align-title="center" class="bar-balanced">
       <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
       <h1 class="title">{{'CHANNELS' | translate}}</h1>
     </ion-header-bar>
+    <notvguide ng-hide="tvGuideIsOn()"></notvguide>
     <ion-content ng-show="tvGuideIsOn()">
       <ion-refresher pulling-text="{{'REFRESH' | translate}}" on-refresh="doRefresh()"></ion-refresher>
       <loading ng-hide="loaded"></loading>
@@ -20,12 +21,11 @@
             <i class="icon ion-chevron-right icon-accessory"></i>
           </ion-item>
         </ion-list>
-        <notvguide ng-hide="tvGuideIsOn()"></notvguide>
       </ion-content>
     </ion-side-menu-content>
 
     <ion-side-menu side="left">
-      <header class="bar bar-header bar-stable">
+      <header class="bar bar-header bar-balanced">
         <h1 class="title">{{'SETTINGS' | translate}}</h1>
       </header>
       <ion-content class="has-header" ng-controller="SettingsCtrl">

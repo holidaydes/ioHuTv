@@ -3,6 +3,8 @@ angular.module('starter.controllers', [])
 .controller('SettingsCtrl', function($scope, $translate, $localstorage) {
 
   $scope.languagePanel = false;
+  $scope.tvGuideSwitch;
+  $scope.safeModeSwitch;
   $scope.language = $localstorage.get('language');
   $scope.nextLimit = $localstorage.get('nextLimit');
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
@@ -21,8 +23,8 @@ angular.module('starter.controllers', [])
     return false;
   };
 
-  $scope.tvGuide = $scope.tvGuideIsOn();
-  $scope.safeMode = $scope.safeModeIsOn();
+  $scope.tvGuideSwitch = $scope.tvGuideIsOn();
+  $scope.safeModeSwitch = $scope.safeModeIsOn();
 
   $scope.changeLanguage = function(langKey) {
     $translate.use(langKey);
@@ -40,12 +42,7 @@ angular.module('starter.controllers', [])
       case 1:
         $localstorage.set('tvGuideSwitch', value);
         console.log('tvGuide is set to ' + $localstorage.get('tvGuideSwitch'));
-        $scope.tvGuide = $localstorage.get('tvGuideSwitch');
-        break;
-      case 2:
-        $localstorage.set('nextLimit', value);
-        console.log('Next limit is set to ' + $localstorage.get('nextLimit'));
-        $scope.nextLimit = $localstorage.get('nextLimit');
+        //$scope.tvGuideSwitch = $localstorage.get('tvGuideSwitch');
         break;
       case 3:
         $localstorage.set('timeoutLimit', value);
@@ -55,7 +52,7 @@ angular.module('starter.controllers', [])
       case 4:
         $localstorage.set('safeMode', value);
         console.log('SafeMode is set to ' + $localstorage.get('safeMode'));
-        $scope.safeMode = $localstorage.get('safeMode');
+        //$scope.safeModeSwitch = $localstorage.get('safeMode');
         break;
     }
   };
@@ -83,7 +80,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChannelsCtrl', function($scope, $ionicPopup, $localstorage, $timeout, $interval, $ionicModal, $ionicScrollDelegate, Channels, TvGuideService, TvTimeService, ImageService) {
+.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, $interval, $ionicModal, Channels, TvGuideService, TvTimeService, ImageService) {
   $scope.port;
   $scope.channels;
   $scope.port_ids = '';
@@ -112,7 +109,6 @@ angular.module('starter.controllers', [])
     $scope.modal.show();
   };
   $scope.closeModal = function() {
-    $scope.scrollTop();
     $scope.modal.hide();
   };
   //Cleanup the modal when we're done with it!
@@ -250,7 +246,7 @@ angular.module('starter.controllers', [])
       if (value) {
         $scope.tvGuide = TvGuideService.channelTvGuide;
         $scope.currentShow = TvGuideService.getCurrentShow($scope.tvGuide.channels[0].programs);
-        $scope.nextShows = TvGuideService.getNextShows($scope.tvGuide.channels[0].programs, $localstorage.get('nextLimit'));
+        $scope.nextShows = TvGuideService.getNextShow($scope.tvGuide.channels[0].programs);
         $scope.loaded = true;
         $scope.capture = ImageService.getCapture($scope.tvGuide.channels[0].capture);
         $scope.loadCapture = true;
@@ -291,26 +287,4 @@ angular.module('starter.controllers', [])
     }, 1000);
   };
 
-  $scope.scrollTop = function() {
-    $ionicScrollDelegate.scrollTop();
-  };
-
-  $scope.scrollBottom = function() {
-    $ionicScrollDelegate.scrollBottom(true);
-  };
-
-  $scope.showPopup = function(next) {
-    $scope.data = next;
-
-    var myPopup = $ionicPopup.show({
-      templateUrl: 'templates/nextShowPopup.html',
-      title: next.title,
-      subTitle: next.start_time + ' - ' + next.end_time,
-      scope: $scope,
-      buttons: [{
-        text: 'Ok',
-        type: 'button-positive'
-      }]
-    });
-  };
 });

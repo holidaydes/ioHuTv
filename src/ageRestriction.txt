@@ -1,4 +1,4 @@
-a2 szülöiengedéllyel
+﻿a2 parent
 a3 12
 a5 16
 a6 18

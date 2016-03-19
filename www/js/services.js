@@ -90,16 +90,9 @@ angular.module('starter.services', [])
     return programs[vm.getShowIterator(programs)];
   };
 
-  vm.getNextShows = function(programs, amount) {
-    vm.next = [];
+  vm.getNextShow = function(programs) {
     var i = vm.getShowIterator(programs);
-
-    for (var j = 1; j <= amount; j++) {
-      if ((i + j) < programs.length) {
-        vm.next.push(programs[i + j]);
-      }
-    }
-    return vm.next;
+    return programs[i + 1];
   };
 
   vm.getShowIterator = function(programs) {
@@ -280,7 +273,7 @@ angular.module('starter.services', [])
 
   vm.getLogo = function(logo) {
     if (logo === null || logo === undefined) {
-      return 'img/default_logo.gif';
+      return 'img/default_logo.png';
     }
     return logo;
   };

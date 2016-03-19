@@ -1,16 +1,12 @@
 todo list
 ----------------------------------------------------------------------
-+ re-imagening :
-- open only a card
-- only show next 3 programme in a new card
-- remove function (nextlimit)
-- remove icons
-- settings goes to menu option
 - new function: style selector
+- styling
 + problems
-- capture update fix (test) not work
+- reset modal view
 - local storage not work -> new database needed
+- some bug with time at 23:30 - 4:00
+- image: handle 404 error
 + backend
 - android intent (open link)
 - optimizing code
-- style for all tab

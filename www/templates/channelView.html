@@ -1,5 +1,5 @@
 <ion-modal-view>
-  <ion-header-bar>
+  <ion-header-bar align-title="center" class="bar-balanced">
     <h1 class="title">{{channel.title}}</h1>
   </ion-header-bar>
   <ion-content>
@@ -16,28 +16,24 @@
       <div class="item item-body">
         <img class="full-image" ng-src="{{capture}}">
         <progress class="progressbar" id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress>
-        <button class="button button-block button-positive" ng-click="send(channel.link)">{{'PLAY' | translate}}</button>
+        <button class="button button-block button-balanced" ng-click="send(channel.link)">{{'PLAY' | translate}}</button>
         <div>
           <p ng-show="currentShow.highlight">{{currentShow.highlight}}</p>
           <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
           <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>
           <p ng-show="currentShow.description">{{currentShow.description}}</p>
+          <p ng-show="currentShow.italics">{{currentShow.italics}}</p>
           <div>
             <a ng-show="currentShow.film_url" ng-href="{{currentShow.film_url}}" class="subdued ion-ios-information-outline">
               {{'INFO' | translate}}</a>
           </div>
-          <button class="button button-block button-positive" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
-          <button class="button button-block button-positive" ng-click="scrollBottom()">{{'NEXT_SHOWS' | translate}}</button>
-          <ion-list>
-            <ion-item ng-repeat="next in nextShows" ng-click="showPopup(next)">
-              <h4>{{next.title}}
-                <img width="15px" ng-src="{{getAge(next.restriction.age_limit)}}"/></h4>
-              <small>{{next.start_time}}
+          <p>{{'NEXT_SHOWS' | translate}}</p>
+              <h4>{{nextShows.title}}
+                <img width="15px" ng-src="{{getAge(nextShows.restriction.age_limit)}}"/></h4>
+              <small>{{nextShows.start_time}}
                 -
-                {{next.end_time}}</small>
-            </ion-item>
-          </ion-list>
-          <a class="subdued" ng-click="scrollTop()">{{'UP' | translate}}</a>
+                {{nextShows.end_time}}</small>
+          <button class="button button-block button-balanced" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
         </div>
       </div>
 
