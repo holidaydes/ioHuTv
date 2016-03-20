@@ -1,5 +1,5 @@
 <ion-modal-view>
-  <ion-header-bar align-title="center" class="bar-balanced">
+  <ion-header-bar align-title="center" ng-class="getTheme('bar')">
     <h1 class="title">{{channel.title}}</h1>
   </ion-header-bar>
   <ion-content>
@@ -7,7 +7,8 @@
       <div class="item item-avatar">
         <img ng-src="{{getLogo(tvGuides.channels[channel.id].logo)}}">
         <h2>{{currentShow.title}}
-          <img width="20px" ng-src="{{getAge(currentShow.restriction.age_limit)}}"/></h2>
+          <span ng-show="getAge(currentShow.restriction.age_limit)"><img width="18px" ng-src="{{getAge(currentShow.restriction.age_limit)}}"/></span>
+        </h2>
         <p>{{currentShow.start_time}}
           -
           {{currentShow.end_time}}</p>
@@ -16,27 +17,35 @@
       <div class="item item-body">
         <img class="full-image" ng-src="{{capture}}">
         <progress class="progressbar" id="progressbar" max="{{ currentShowEndTime }}" value="{{ progressval }}"></progress>
-        <button class="button button-block button-balanced" ng-click="send(channel.link)">{{'PLAY' | translate}}</button>
+        <button class="button button-block" ng-class="getTheme('button')" ng-click="send(channel.link, 'application/x-mpegURL')">{{'PLAY' | translate}}</button>
         <div>
           <p ng-show="currentShow.highlight">{{currentShow.highlight}}</p>
           <p ng-show="currentShow.short_description">{{currentShow.short_description}}</p>
           <p ng-show="currentShow.episode_title">{{currentShow.episode_title}}</p>
           <p ng-show="currentShow.description">{{currentShow.description}}</p>
           <p ng-show="currentShow.italics">{{currentShow.italics}}</p>
-          <div>
-            <a ng-show="currentShow.film_url" ng-href="{{currentShow.film_url}}" class="subdued ion-ios-information-outline">
+          <div display="inline">
+            <a ng-show="currentShow.film_url" ng-click="send(currentShow.film_url, 'text/html')" class="subdued ion-ios-information-outline">
               {{'INFO' | translate}}</a>
           </div>
-          <p>{{'NEXT_SHOWS' | translate}}</p>
-              <h4>{{nextShows.title}}
-                <img width="15px" ng-src="{{getAge(nextShows.restriction.age_limit)}}"/></h4>
-              <small>{{nextShows.start_time}}
-                -
-                {{nextShows.end_time}}</small>
-          <button class="button button-block button-balanced" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
+          <div ng-show="nextShows">
+            <h3 class="center">{{'NEXT_SHOWS' | translate}}</h3>
+            <hr/>
+            <p>
+              {{nextShows.start_time}}
+              -
+              {{nextShows.end_time}}
+              :
+              <b>{{nextShows.title}}</b>
+              <img width="15px" ng-src="{{getAge(nextShows.restriction.age_limit)}}"/>
+            </p>
+          </div>
         </div>
       </div>
 
     </div>
   </ion-content>
+  <div class="bar bar-footer" ng-class="getTheme('bar')">
+    <div class="title" ng-click="closeModal()">{{'CLOSE' | translate}}</div>
+  </div>
 </ion-modal-view>

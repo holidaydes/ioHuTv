@@ -32,7 +32,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'TIMEOUT': 'Timeout',
     'REFRESH': 'Pull to refresh...',
     'SAFEMODE': 'Safe mode',
-    'CLOSE': 'Close'
+    'CLOSE': 'Close',
+    'THEME': 'Theme',
+    'VERSION': 'Version'
   });
 
   $translateProvider.translations('hu', {
@@ -48,13 +50,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'TIMEOUT': 'Idő túl lépés',
     'REFRESH': 'Húzza le a frissítéshez...',
     'SAFEMODE': 'Biztonsági mód',
-    'CLOSE': 'Bezár'
+    'CLOSE': 'Bezár',
+    'THEME': 'Téma',
+    'VERSION': 'Verzió'
   });
   //$translateProvider.preferredLanguage('hu');
 }])
 
 .run(function($localstorage, $translate) {
   $localstorage.set('language', 'hu');
+  $localstorage.set('theme', 'balanced');
   $localstorage.set('tvGuideSwitch', true);
   $localstorage.set('timeoutLimit', 5000);
   $localstorage.set('safeMode', false);

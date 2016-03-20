@@ -1,12 +1,13 @@
 todo list
 ----------------------------------------------------------------------
-- new function: style selector
-- styling
-+ problems
++ important
+- tvguide date bug (solution: 0:00 - 6:00 get old tvguide)
+- local storage not work on android -> new database needed
++ low priority
+- auto channel refreshing (need?) or manual (button?)
+- refresher on main screen (button?)
 - reset modal view
-- local storage not work -> new database needed
-- some bug with time at 23:30 - 4:00
 - image: handle 404 error
-+ backend
-- android intent (open link)
+- on android: no radius on buttons
++ end task
 - optimizing code

@@ -7,7 +7,7 @@ angular.module('starter.services', [])
 
   var url = "";
   if (ionic.Platform.isAndroid()) {
-    url = "/resource/channels.json";// = "/android_asset/www/resource/channels.json";
+    url = "/resource/channels.json"; // = "/android_asset/www/resource/channels.json";
   } else {
     url = "/resource/channels.json";
   }
@@ -66,7 +66,8 @@ angular.module('starter.services', [])
     return false;
   };
 
-  vm.getTvGuide = function(port, port_id, date) {
+  vm.getTvGuide = function(port, port_id) {
+    var date = TvTimeService.getDate();
     var url = port + port_id + '&i_portdate=' + date;
     //$http.get('/resource/port.json').then(function(resp) {
     $http.get(url).then(function(resp) {
@@ -76,7 +77,8 @@ angular.module('starter.services', [])
     });
   };
 
-  vm.getTvGuides = function(port, port_ids, date) {
+  vm.getTvGuides = function(port, port_ids) {
+    var date = TvTimeService.getDate();
     var url = port + port_ids + '&i_portdate=' + date;
     //$http.get('/resource/port_minden.json').then(function(resp) {
     $http.get(url).then(function(resp) {
@@ -276,6 +278,35 @@ angular.module('starter.services', [])
       return 'img/default_logo.png';
     }
     return logo;
+  };
+
+})
+
+.service('ThemeService', function($localstorage) {
+  var vm = this;
+
+  vm.themes = ['light', 'stable', 'positive', 'calm', 'balanced', 'energized', 'assertive', 'royal', 'dark'];
+
+  vm.getTheme = function(element) {
+    var theme = $localstorage.get('theme');
+    switch (element) {
+      case 'bar':
+        return 'bar-' + theme;
+        break;
+      case 'range':
+        return 'range-' + theme;
+        break;
+      case 'toggle':
+        return 'toggle-' + theme;
+        break;
+      case 'spinner':
+        return 'spinner-' + theme;
+        break;
+      case 'button':
+        return 'button-' + theme;
+        break;
+      default:
+    }
   };
 
 });

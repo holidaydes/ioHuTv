@@ -6,9 +6,16 @@
   <ion-radio ng-model="language" ng-value="'hu'" ng-click="changeLanguage('hu')">{{'LANG_HU' | translate}}</ion-radio>
   <ion-radio ng-model="language" ng-value="'en'" ng-click="changeLanguage('en')">{{'LANG_EN' | translate}}</ion-radio>
 </div>
+<div class="item" ng-click="showThemePanel()">
+  <label>{{'THEME' | translate}}</label>
+  <span class="item-note">{{currentTheme}}</span>
+</div>
+<div ng-show="themePanel">
+  <ion-radio ng-repeat="theme in themes" ng-click="changeTheme(theme)">{{theme}}</ion-radio>
+</div>
 <div class="item item-toggle">
   <label>{{'TVGUIDE' | translate}}</label>
-  <label class="toggle toggle-balanced">
+  <label class="toggle" ng-class="getTheme('toggle')">
     <input type="checkbox" ng-model="tvGuideSwitch" ng-checked="tvGuideSwitch" ng-change="save(1, tvGuideSwitch)">
     <div class="track">
       <div class="handle"></div>
@@ -16,18 +23,22 @@
   </label>
 </div>
 <div ng-show="tvGuideSwitch">
-  <div class="item range range-balanced">
+  <div class="item range" ng-class="getTheme('range')">
     <label>{{'TIMEOUT' | translate}}</label>
     <input type="range" ng-model="timeoutLimit" ng-change="save(3, timeoutLimit)" name="volume" min="1000" max="10000" step="1000" value="{{timeoutLimit}}">
     {{timeoutLimit}}
   </div>
   <div class="item item-toggle">
     <label>{{'SAFEMODE' | translate}}</label>
-    <label class="toggle toggle-balanced">
+    <label class="toggle" ng-class="getTheme('toggle')">
       <input type="checkbox" ng-model="safeModeSwitch" ng-checked="safeModeSwitch" ng-change="save(4, safeModeSwitch)">
       <div class="track">
         <div class="handle"></div>
       </div>
     </label>
   </div>
+</div>
+<div class="item">
+  <label>{{'VERSION' | translate}}</label>
+  <span class="item-note">{{version}}</span>
 </div>

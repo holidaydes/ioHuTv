@@ -1,7 +1,7 @@
 <ion-content>
   <loading ng-hide="loaded"></loading>
   <ion-list ng-show="loaded">
-    <ion-item class="item-avatar" ng-repeat="channel in channels" type="item-text-wrap" ng-click="send(channel.link)">
+    <ion-item class="item-avatar" ng-repeat="channel in channels" type="item-text-wrap" ng-click="send(channel.link, 'application/x-mpegURL')">
       <img ng-src="img/default_logo.png">
       <h2>{{channel.title}}</h2>
     </ion-item>
