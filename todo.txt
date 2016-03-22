@@ -1,7 +1,7 @@
 todo list
 ----------------------------------------------------------------------
 + important
-- tvguide date bug (solution: 0:00 - 6:00 get old tvguide)
+- test: tvguide date bug (solution: 0:00 - 5:00 get old tvguide)
 - local storage not work on android -> new database needed
 + low priority
 - auto channel refreshing (need?) or manual (button?)

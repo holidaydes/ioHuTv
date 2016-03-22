@@ -123,6 +123,9 @@ angular.module('starter.services', [])
 
   vm.getDate = function() {
     var date = new Date();
+    if (vm.isDayEnd()) {
+      date.setDate(date.getDate() - 1);
+    }
     var year = date.getFullYear();
     var month = ((date.getMonth() < 9) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1));
     var day = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
@@ -220,6 +223,15 @@ angular.module('starter.services', [])
     var endMinutes = vm.getMinuteForProgress(end);
 
     return vm.getDuration(startHour, startMinutes, endHour, endMinutes);
+  };
+
+  vm.isDayEnd = function() {
+    var currentTime = vm.getCurrentTime();
+    if(currentTime >= 2400  || currentTime < 500) {
+      console.log('End of the day.');
+      return true;
+    }
+    return false;
   };
 
 }])
