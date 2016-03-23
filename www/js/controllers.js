@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
   $scope.themes = ThemeService.themes;
 
-  $scope.version = 'v0.20';
+  $scope.version = 'v0.21';
 
   $scope.tvGuideIsOn = function() {
     if ($localstorage.get('tvGuideSwitch') === 'true') {
@@ -159,16 +159,6 @@ angular.module('starter.controllers', [])
       return true;
     }
     return false;
-  };
-
-  $scope.doRefresh = function() {
-    if ($scope.tvGuideIsOn()) {
-      $scope.update();
-      console.log('Updated tvguide.');
-      $scope.$broadcast('scroll.refreshComplete');
-    } else {
-      console.log('Nothing happened.');
-    }
   };
 
   $scope.getTheme = function(element) {

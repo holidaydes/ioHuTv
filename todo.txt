@@ -2,10 +2,10 @@ todo list
 ----------------------------------------------------------------------
 + important
 - test: tvguide date bug (solution: 0:00 - 5:00 get old tvguide)
+- use safe mode instead (bug with time)
 - local storage not work on android -> new database needed
 + low priority
-- auto channel refreshing (need?) or manual (button?)
-- refresher on main screen (button?)
+- auto channel refreshing (need?)
 - reset modal view
 - image: handle 404 error
 - on android: no radius on buttons
