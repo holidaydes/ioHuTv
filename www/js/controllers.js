@@ -9,7 +9,6 @@ angular.module('starter.controllers', [])
   $scope.safeModeSwitch;
   $scope.language = $localstorage.get('language');
   $scope.currentTheme = $localstorage.get('theme');
-  $scope.nextLimit = $localstorage.get('nextLimit');
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
   $scope.themes = ThemeService.themes;
 
@@ -22,15 +21,7 @@ angular.module('starter.controllers', [])
     return false;
   };
 
-  $scope.safeModeIsOn = function() {
-    if ($localstorage.get('safeMode') === 'true') {
-      return true;
-    }
-    return false;
-  };
-
   $scope.tvGuideSwitch = $scope.tvGuideIsOn();
-  $scope.safeModeSwitch = $scope.safeModeIsOn();
 
   $scope.changeLanguage = function(langKey) {
     $translate.use(langKey);
@@ -69,11 +60,6 @@ angular.module('starter.controllers', [])
         console.log('Timeout is set to ' + $localstorage.get('timeoutLimit'));
         $scope.timeoutLimit = $localstorage.get('timeoutLimit');
         break;
-      case 4:
-        $localstorage.set('safeMode', value);
-        console.log('SafeMode is set to ' + $localstorage.get('safeMode'));
-        //$scope.safeModeSwitch = $localstorage.get('safeMode');
-        break;
     }
   };
 
@@ -108,7 +94,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, $interval, $ionicModal, Channels, TvGuideService, TvTimeService, ImageService, ThemeService) {
+.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, $interval, $ionicModal, Channels, TvGuideService, TvTimeService, ImageService, ThemeService, SonService) {
   $scope.channels;
   $scope.port_ids = '';
   $scope.tvGuides = '';
@@ -129,11 +115,13 @@ angular.module('starter.controllers', [])
   }).then(function(modal) {
     $scope.modal = modal;
   });
+
   $scope.openModal = function(id) {
     $scope.channel = Channels.getChannel(id);
     $scope.updateChannel();
     $scope.modal.show();
   };
+
   $scope.closeModal = function() {
     $scope.modal.hide();
   };
@@ -177,6 +165,21 @@ angular.module('starter.controllers', [])
       $scope.update();
     }
   });
+
+  $scope.makePromiseWithSon = function() {
+    // This service's function returns a promise, but we'll deal with that shortly
+    SonService.getWeather()
+      // then() called when son gets back
+      .then(function(data) {
+        // promise fulfilled
+        console.log("Promise fulfilled");
+      }, function(error) {
+        // promise rejected, could log the error with: console.log('error', error);
+        console.log("Rejected!");
+      });
+  };
+
+  $scope.makePromiseWithSon();
 
   $scope.getCurrentShow = function(programs) {
     if (programs != undefined) {
@@ -252,24 +255,24 @@ angular.module('starter.controllers', [])
       }, $localstorage.get('timeoutLimit'));
     });
   };
-/*
-  $scope.$watch(angular.bind(TvTimeService, function() {
-    return TvTimeService.getCurrentTime();
-  }), function(value) {
-    console.log($scope.currentShow.end_time + ' - ' + value);
-    if ($scope.currentShow.end_time !== undefined) {
-      var endTime = TvTimeService.getTime($scope.currentShow.end_time);
-      console.log('et: ' + endTime + ' ct: ' + value);
-      if (value >= 2400 && endTime < 1000) {
-        endTime += 2400;
+  /*
+    $scope.$watch(angular.bind(TvTimeService, function() {
+      return TvTimeService.getCurrentTime();
+    }), function(value) {
+      console.log($scope.currentShow.end_time + ' - ' + value);
+      if ($scope.currentShow.end_time !== undefined) {
+        var endTime = TvTimeService.getTime($scope.currentShow.end_time);
+        console.log('et: ' + endTime + ' ct: ' + value);
+        if (value >= 2400 && endTime < 1000) {
+          endTime += 2400;
+        }
+        if (value > endTime) {
+          $scope.updateChannel();
+          console.log('Program was changed.');
+        }
       }
-      if (value > endTime) {
-        $scope.updateChannel();
-        console.log('Program was changed.');
-      }
-    }
-  });
-*/
+    });
+  */
   $scope.getProgressDuration = function(start, end) {
     return TvTimeService.getCurrentProgressMax(start, end);
   };

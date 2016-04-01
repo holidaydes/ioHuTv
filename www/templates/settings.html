@@ -28,15 +28,6 @@
     <input type="range" ng-model="timeoutLimit" ng-change="save(3, timeoutLimit)" name="volume" min="1000" max="10000" step="1000" value="{{timeoutLimit}}">
     {{timeoutLimit}}
   </div>
-  <div class="item item-toggle">
-    <label>{{'SAFEMODE' | translate}}</label>
-    <label class="toggle" ng-class="getTheme('toggle')">
-      <input type="checkbox" ng-model="safeModeSwitch" ng-checked="safeModeSwitch" ng-change="save(4, safeModeSwitch)">
-      <div class="track">
-        <div class="handle"></div>
-      </div>
-    </label>
-  </div>
 </div>
 <div class="item">
   <label>{{'VERSION' | translate}}</label>

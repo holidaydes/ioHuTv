@@ -30,7 +30,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'NEXT_SHOWS': 'Next show',
     'TVGUIDE': 'Tv guide',
     'TIMEOUT': 'Timeout',
-    'SAFEMODE': 'Safe mode',
     'CLOSE': 'Close',
     'THEME': 'Theme',
     'VERSION': 'Version'
@@ -47,7 +46,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     'NEXT_SHOWS': 'Következő műsor',
     'TVGUIDE': 'Műsorújság',
     'TIMEOUT': 'Idő túl lépés',
-    'SAFEMODE': 'Biztonsági mód',
     'CLOSE': 'Bezár',
     'THEME': 'Téma',
     'VERSION': 'Verzió'
@@ -60,7 +58,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $localstorage.set('theme', 'balanced');
   $localstorage.set('tvGuideSwitch', true);
   $localstorage.set('timeoutLimit', 5000);
-  $localstorage.set('safeMode', true);
 
   $translate.use($localstorage.get('language'));
 });

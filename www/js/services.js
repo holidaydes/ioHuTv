@@ -36,6 +36,19 @@ angular.module('starter.services', [])
   };
 })
 
+.factory('SonService', function($http, $q) {
+  return {
+    getWeather: function() {
+      return $http.get('/resource/channels.json')
+        .then(function(response) {
+          return response.data;
+        }, function(response) {
+          return $q.reject(response.data);
+        });
+    }
+  };
+})
+
 .factory('$localstorage', ['$window', function($window) {
   return {
     set: function(key, value) {
@@ -58,13 +71,6 @@ angular.module('starter.services', [])
   var vm = this;
   vm.channelTvGuide;
   vm.channelTvGuides;
-
-  vm.safeModeIsOn = function() {
-    if ($localstorage.get('safeMode') === 'true') {
-      return true;
-    }
-    return false;
-  };
 
   vm.getTvGuide = function(port, port_id) {
     var date = TvTimeService.getDate();
@@ -93,25 +99,13 @@ angular.module('starter.services', [])
   };
 
   vm.getNextShow = function(programs) {
-    var i = vm.getShowIterator(programs);
-    return programs[i + 1];
+    return programs[vm.getShowIterator(programs) + 1];
   };
 
   vm.getShowIterator = function(programs) {
-    if (vm.safeModeIsOn()) {
-      for (var i = 0; i < programs.length; i++) {
-        if (programs[i].is_live) {
-          return i;
-          break;
-        }
-      }
-    } else {
-      var currentTime = TvTimeService.getCurrentTime();
-      for (var i = 0; i < programs.length; i++) {
-        if (TvTimeService.getTime(programs[i].start_time) <= currentTime && TvTimeService.getTime(programs[i].end_time) >= currentTime) {
-          return i;
-          break;
-        }
+    for (var i = 0; i < programs.length; i++) {
+      if (programs[i].is_live) {
+        return i;
       }
     }
   };
@@ -136,7 +130,7 @@ angular.module('starter.services', [])
     var date = new Date();
     var hours = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours());
 
-    if (hours === '00') {
+    if (angular.equals(hours, '00')) {
       hours = 24;
     }
     if (hours.toString().substring(0, 1) === '0') {
@@ -227,7 +221,7 @@ angular.module('starter.services', [])
 
   vm.isDayEnd = function() {
     var currentTime = vm.getCurrentTime();
-    if(currentTime >= 2400  || currentTime < 500) {
+    if (currentTime >= 2400 || currentTime < 500) {
       console.log('End of the day.');
       return true;
     }
