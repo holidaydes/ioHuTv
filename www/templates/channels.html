@@ -4,7 +4,7 @@
     <ion-header-bar align-title="center" ng-class="getTheme('bar')">
       <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
       <h1 class="title">{{'CHANNELS' | translate}}</h1>
-      <button ng-click="update()" class="button button-icon icon ion-ios-refresh-empty"></button>
+      <button ng-show="tvGuideIsOn()" ng-click="update()" class="button button-icon icon ion-ios-refresh-empty"></button>
     </ion-header-bar>
     <notvguide ng-hide="tvGuideIsOn()"></notvguide>
     <ion-content ng-show="tvGuideIsOn()">

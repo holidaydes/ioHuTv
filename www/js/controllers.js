@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
   $scope.themes = ThemeService.themes;
 
-  $scope.version = 'v0.21';
+  $scope.version = 'v0.23';
 
   $scope.tvGuideIsOn = function() {
     if ($localstorage.get('tvGuideSwitch') === 'true') {
@@ -94,7 +94,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, $interval, $ionicModal, Channels, TvGuideService, TvTimeService, ImageService, ThemeService, SonService) {
+.controller('ChannelsCtrl', function($scope, $localstorage, $timeout, $interval, $ionicModal, Channels, TvGuideService, TvTimeService, ImageService, ThemeService) {
   $scope.channels;
   $scope.port_ids = '';
   $scope.tvGuides = '';
@@ -166,21 +166,6 @@ angular.module('starter.controllers', [])
     }
   });
 
-  $scope.makePromiseWithSon = function() {
-    // This service's function returns a promise, but we'll deal with that shortly
-    SonService.getWeather()
-      // then() called when son gets back
-      .then(function(data) {
-        // promise fulfilled
-        console.log("Promise fulfilled");
-      }, function(error) {
-        // promise rejected, could log the error with: console.log('error', error);
-        console.log("Rejected!");
-      });
-  };
-
-  $scope.makePromiseWithSon();
-
   $scope.getCurrentShow = function(programs) {
     if (programs != undefined) {
       return TvGuideService.getCurrentShow(programs);
@@ -193,19 +178,18 @@ angular.module('starter.controllers', [])
   };
 
   $scope.update = function() {
-    TvGuideService.getTvGuides($scope.port, $scope.port_ids);
-    console.log('Query tv guides');
-    $scope.$watch(angular.bind(TvGuideService, function() {
-      return TvGuideService.channelTvGuides;
-    }), function(value) {
-      if (value) {
-        $scope.tvGuides = TvGuideService.channelTvGuides;
-        $scope.loaded = true;
-      }
-      $timeout(function() {
-        $scope.loaded = true;
-      }, $localstorage.get('timeoutLimit'));
+    TvGuideService.getTvGuides($scope.port, $scope.port_ids).success(function(data) {
+      $scope.tvGuides = data;
+      $scope.loaded = true;
+    }).error(function(data, status) {
+      console.error('Error', status, data);
+    }).finally(function() {
+      console.log('Query tv guides');
     });
+
+    $timeout(function() {
+      $scope.loaded = true;
+    }, $localstorage.get('timeoutLimit'));
   };
 
   $scope.getAge = function(age) {
@@ -231,48 +215,30 @@ angular.module('starter.controllers', [])
   };
 
   $scope.updateChannel = function() {
-    TvGuideService.getTvGuide($scope.port, $scope.channel.port_id);
-    console.log('Query ' + $scope.channel.title + ' programs.');
-    $scope.$watch(angular.bind(TvGuideService, function() {
-      return TvGuideService.channelTvGuide;
-    }), function(value) {
-      if (value) {
-        $scope.tvGuide = TvGuideService.channelTvGuide;
-        $scope.currentShow = TvGuideService.getCurrentShow($scope.tvGuide.channels[0].programs);
-        $scope.nextShows = TvGuideService.getNextShow($scope.tvGuide.channels[0].programs);
-        $scope.loaded = true;
-        $scope.capture = ImageService.getCapture($scope.tvGuide.channels[0].capture);
-        $scope.loadCapture = true;
-        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getCurrentTime());
-        $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
-        startprogress();
-      }
-      $timeout(function() {
-        $scope.loaded = true;
-        $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getCurrentTime());
-        $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
-        startprogress();
-      }, $localstorage.get('timeoutLimit'));
+    TvGuideService.getTvGuide($scope.port, $scope.channel.port_id).success(function(data) {
+      $scope.tvGuide = data;
+      $scope.currentShow = TvGuideService.getCurrentShow($scope.tvGuide.channels[0].programs);
+      $scope.nextShows = TvGuideService.getNextShow($scope.tvGuide.channels[0].programs);
+      $scope.loaded = true;
+      $scope.capture = ImageService.getCapture($scope.tvGuide.channels[0].capture);
+      $scope.loadCapture = true;
+      $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getCurrentTime());
+      $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
+      startprogress();
+    }).error(function(data, status) {
+      console.error('Error', status, data);
+    }).finally(function() {
+      console.log('Query ' + $scope.channel.title + ' programs.');
     });
+
+    $timeout(function() {
+      $scope.loaded = true;
+      $scope.progressval = $scope.getProgressValue($scope.currentShow.start_time, TvTimeService.getCurrentTime());
+      $scope.currentShowEndTime = $scope.getProgressDuration($scope.currentShow.start_time, $scope.currentShow.end_time);
+      startprogress();
+    }, $localstorage.get('timeoutLimit'));
   };
-  /*
-    $scope.$watch(angular.bind(TvTimeService, function() {
-      return TvTimeService.getCurrentTime();
-    }), function(value) {
-      console.log($scope.currentShow.end_time + ' - ' + value);
-      if ($scope.currentShow.end_time !== undefined) {
-        var endTime = TvTimeService.getTime($scope.currentShow.end_time);
-        console.log('et: ' + endTime + ' ct: ' + value);
-        if (value >= 2400 && endTime < 1000) {
-          endTime += 2400;
-        }
-        if (value > endTime) {
-          $scope.updateChannel();
-          console.log('Program was changed.');
-        }
-      }
-    });
-  */
+
   $scope.getProgressDuration = function(start, end) {
     return TvTimeService.getCurrentProgressMax(start, end);
   };

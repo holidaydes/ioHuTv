@@ -36,19 +36,6 @@ angular.module('starter.services', [])
   };
 })
 
-.factory('SonService', function($http, $q) {
-  return {
-    getWeather: function() {
-      return $http.get('/resource/channels.json')
-        .then(function(response) {
-          return response.data;
-        }, function(response) {
-          return $q.reject(response.data);
-        });
-    }
-  };
-})
-
 .factory('$localstorage', ['$window', function($window) {
   return {
     set: function(key, value) {
@@ -69,17 +56,14 @@ angular.module('starter.services', [])
 .service('TvGuideService', ['$http', '$localstorage', 'TvTimeService', function($http, $localstorage, TvTimeService) {
 
   var vm = this;
-  vm.channelTvGuide;
-  vm.channelTvGuides;
 
   vm.getTvGuide = function(port, port_id) {
     var date = TvTimeService.getDate();
     var url = port + port_id + '&i_portdate=' + date;
     //$http.get('/resource/port.json').then(function(resp) {
-    $http.get(url).then(function(resp) {
-      vm.channelTvGuide = resp.data;
-    }, function(err) {
-      console.error('Error', err);
+    return $http({
+      method: 'GET',
+      url: url
     });
   };
 
@@ -87,10 +71,9 @@ angular.module('starter.services', [])
     var date = TvTimeService.getDate();
     var url = port + port_ids + '&i_portdate=' + date;
     //$http.get('/resource/port_minden.json').then(function(resp) {
-    $http.get(url).then(function(resp) {
-      vm.channelTvGuides = resp.data;
-    }, function(err) {
-      console.error('Error', err);
+    return $http({
+      method: 'GET',
+      url: url
     });
   };
 
@@ -133,7 +116,7 @@ angular.module('starter.services', [])
     if (angular.equals(hours, '00')) {
       hours = 24;
     }
-    if (hours.toString().substring(0, 1) === '0') {
+    if (angular.equals(hours.toString().substring(0, 1), '0')) {
       hours = hours.toString().substring(1);
     }
 
@@ -154,10 +137,10 @@ angular.module('starter.services', [])
     var hours = time.toString().substring(0, 2);
     var minutes = time.toString().substring(3);
 
-    if (hours === '00') {
+    if (angular.equals(hours, '00')) {
       hours = 24;
     }
-    if (hours.toString().substring(0, 1) === '0') {
+    if (angular.equals(hours.toString().substring(0, 1), '0')) {
       hours = hours.toString().substring(1);
     }
 
@@ -182,13 +165,13 @@ angular.module('starter.services', [])
 
   vm.getDuration = function(startHour, startMinutes, endHour, endMinutes) {
     var progressMax = 0;
-    if (startHour === 24) {
+    if (angular.equals(startHour, 24)) {
       startHour = 0;
     }
-    if (startMinutes.toString().substring(0, 1) === '0') {
+    if (angular.equals(startMinutes.toString().substring(0, 1), '0')) {
       startMinutes = startMinutes.toString().substring(1);
     }
-    if (endMinutes.toString().substring(0, 1) === '0') {
+    if (angular.equals(endMinutes.toString().substring(0, 1), '0')) {
       endMinutes = endMinutes.toString().substring(1);
     }
     progressMax = (parseInt(endHour) * 60 + parseInt(endMinutes)) - (parseInt(startHour) * 60 + parseInt(startMinutes));
@@ -273,14 +256,14 @@ angular.module('starter.services', [])
   };
 
   vm.getCapture = function(url) {
-    if (url === null || url === undefined) {
+    if (!url) {
       return 'img/default.jpg';
     }
     return url;
   };
 
   vm.getLogo = function(logo) {
-    if (logo === null || logo === undefined) {
+    if (!logo) {
       return 'img/default_logo.png';
     }
     return logo;
