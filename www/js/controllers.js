@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
   $scope.timeoutLimit = $localstorage.get('timeoutLimit');
   $scope.themes = ThemeService.themes;
 
-  $scope.version = 'v0.23';
+  $scope.version = 'v0.24';
 
   $scope.tvGuideIsOn = function() {
     if ($localstorage.get('tvGuideSwitch') === 'true') {

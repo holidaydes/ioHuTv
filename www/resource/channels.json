@@ -3,42 +3,12 @@
 "channels" :[
 {
 "id" : 0,
-"port_id" : 1,
-"title" : "M1",
-"link" : "http://78.24.186.240/streams/mtva/mtv1live.smil/playlist.m3u8"
-},
-{
-"id" : 1,
-"port_id" : 2,
-"title" : "M2",
-"link" : "http://212.40.98.162/streams/mtva/mtv2live.smil/playlist.m3u8"
-},
-{
-"id" : 2,
-"port_id" : 290,
-"title" : "M4 Sport",
-"link" : "http://212.40.98.161/livedrm/mtva/mtv4live.smil/playlist.m3u8"
-},
-{
-"id" : 3,
-"port_id" : 6,
-"title" : "Duna TV",
-"link" : "http://78.24.186.240/streams/mtva/dunalive.smil/playlist.m3u8"
-},
-{
-"id" : 4,
-"port_id" : 103,
-"title" : "Duna World",
-"link" : "http://78.24.186.240/streams/mtva/dunaworldlive.smil/playlist.m3u8"
-},
-{
-"id" : 5,
 "port_id" : 15,
 "title" : "ATV",
 "link" : "rtmp://195.228.75.97/atvliveedge/_definst_/atvstream_2_aac"
 },
 {
-"id" : 6,
+"id" : 1,
 "port_id" : 71,
 "title" : "Euronews",
 "link" : "rtsp://ewns-hls-b-stream.hexaglobe.net/rtpeuronewslive/hu_vidan350_rtp.sdp?3a3fdd31ce59c91891ec6cce06dee77f&54566"
