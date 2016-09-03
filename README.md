@@ -1,5 +1,5 @@
 ## Description
-This app include two hungarian tv channels. Play live stream in external video player (Vlc, MxPlayer).
+This app includes two hungarian tv channels. Play live stream in external video player (Vlc, MxPlayer).
 Also show the actual programme.
 Features: multilanguage (hu, en), theme color picking, tv guide turning on/off, timeout limit for quering tv programme.
 That's all folks! This is a practice project, no more!
