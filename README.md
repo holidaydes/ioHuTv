@@ -5,45 +5,45 @@ Features: multilanguage (hu, en), theme color picking, tv guide turning on/off, 
 That's all folks! This is a practice project, no more!
 
 ## Requirements to build
-1. install NodeJs
-2. install npm
-3. install bower
+- install NodeJs
+- install npm
+- install bower
 ```
 npm install -g bower
 ```
-4. install cordova
+- install cordova
 ```
 npm install -g cordova
 ```
-5. install ionic
+- install ionic
 ```
 npm install -g ionic
 ```
-6. install andoid Sdk
-7. add ANDROID_HOME (Sdk) enviroment variable and tools path (Sdk/tools) to PATH enviroment variable
+- install andoid Sdk
+- add ANDROID_HOME (Sdk) enviroment variable and tools path (Sdk/tools) to PATH enviroment variable
 
 ## Building
-1. add platform (android)
+- add platform (android)
 ```
 ionic platform android
 ```
-2. Add webintent plugin. To install the plugin, use the Cordova CLI and enter the following:
+- Add webintent plugin. To install the plugin, use the Cordova CLI and enter the following:
 ```
 cordova plugin add https://github.com/Initsogar/cordova-webintent.git
 ```
-3. Confirm that the following is in your res/xml/config.xml file:
+- Confirm that the following is in your res/xml/config.xml file:
 ```
 <plugin name="WebIntent" value="com.borismus.webintent.WebIntent" />
 ```
-4. Emulate or...
+- Emulate or...
 ```
 ionic emulate android.
 ```
-5. Run on device (usb connection needed)
+- Run on device (usb connection needed)
 ```
 ionic run android
 ```
-6. Or just build an apk.
+- Or just build an apk.
 ```
 ionic build android
 ```
