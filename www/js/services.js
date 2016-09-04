@@ -7,7 +7,7 @@ angular.module('starter.services', [])
 
   var url = "";
   if (ionic.Platform.isAndroid()) {
-    url = /*"/resource/channels.json"; */ = "/android_asset/www/resource/channels.json";
+    url/* = "/resource/channels.json"; */ = "/android_asset/www/resource/channels.json";
   } else {
     url = "/resource/channels.json";
   }
